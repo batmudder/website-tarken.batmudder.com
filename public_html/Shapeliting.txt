@@ -1,0 +1,10 @@
+#ECHO Ok. Health shapes will now be lit. You can find these triggers
+#ECHO in the Shape Liting folder of your triggers.
+#TRIGGER {is in excellent shape.} {#cw 3} "Shape liting"
+#TRIGGER {is in a good shape.} {#cw 11} "Shape liting"
+#TRIGGER {is slightly hurt.} {#cw 2} "Shape liting"
+#TRIGGER {is noticeably hurt.} {#cw 10} "Shape liting"
+#TRIGGER {is not in a good shape.} {#cw 6} "Shape liting"
+#TRIGGER {is in bad shape.} {#cw 14} "Shape liting"
+#TRIGGER {is in very bad shape.} {#cw 4} "Shape liting"
+#TRIGGER {is near death.} {#cw 12} "Shape liting"

@@ -1,0 +1,4 @@
+#TRIGGER {^You gained (%d) navy reputation.} {#add navyrep %1;#add navyships 1;#ECHO Gained %1 Navy Reputation. Now at @navyrep.}
+#ECHO This will track how many ships you've sunk and how much rep you've gained.
+#ECHO To set how many ships you've sunk before type #var navyships {value}
+#ECHO To set your rep prior to this install type #var navyrep {value}
