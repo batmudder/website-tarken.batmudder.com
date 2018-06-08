@@ -1,0 +1,1065 @@
+#ECHO {'¯¯¯¯-Triggers by Ssmud-¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯'}
+#ECHO {| This set of triggers records what prots have been casted on you and when they  |}
+#ECHO {| fall. You can check what triggers are currently on you by typing "check" or by |}
+#ECHO {| "tweak yourname" or having someone else "tweak yourname". You can also display |}
+#ECHO {| what prots are on you and times along with them by typing "timedcheck". Also,  |}
+#ECHO {| These triggers record when someone casts a curse at a monster, like degenerate |}
+#ECHO {| person, curse of tarmalen, or spider touch. You can display the times on those |}
+#ECHO {| curses by pressing F12, or by having someone "twirl yourname". These triggers  |}
+#ECHO {| also have a spell-round report script that reports how many rounds your spell  |}
+#ECHO {| is from going off, but will only report at 3 rounds or less, by default, this  |}
+#ECHO {| option is disabled but you can toggle it on with "spellroundson" and toggle it |}
+#ECHO {| off with "spellroundsoff". Also, when you click "Triggers" and go to the R.I.P |}
+#ECHO {| Class, you will notice a is DEAD, RIP trigger, which you can add a value to,   |}
+#ECHO {| such as dig grave or so. That class can be toggled with "ripon" and "ripoff"   |}
+#ECHO {| Also you can set your status bar to report how much exp you need to train by   |}
+#ECHO {| typing "setexp", it will prompt you for exp amount, and the skillname.         |}
+#ECHO {|                                                                                |}
+#ECHO {| Ok so, quick overview of the command-aliases for zmud:                         |}
+#ECHO {|                                                                                |}
+#ECHO {|  ripon  = Enables RIP Trigger           | check = quotes prots to party report |}
+#ECHO {|  ripoff = Disable RIP Trigger           | timedcheck = same as check +times    |}
+#ECHO {|  clear  = reset current prots on you    | F12 = Check Curse Timers             |}
+#ECHO {| Having someone "tweak" you = timedcheck | F6  = Shows this Help File Again.    |}
+#ECHO {| Having someone "twirl" you = F12                                               |}
+#ECHO {'__________________________________________________-Triggers by Ssmud-___________'}
+#CLASS 0
+#ALIAS setexp {#PR TotalExp "Set Experience Needed";#PR SkillName "What Skill or Spell?"}
+#ALIAS funkoff {#T- funk}
+#ALIAS funkon {#T+ funk}
+#ALIAS ripoff {#T- R.I.P}
+#ALIAS ripon {#T+ R.I.P}
+#ALIAS protidon {#T+ prot-id}
+#ALIAS protidoff {#T- prot-id}
+#ALIAS gainon {#T+ Exp}
+#ALIAS gainoff {#T- Exp}
+#ALIAS idleon {#T+ idler}
+#ALIAS idleoff {#T- idler}
+#ALIAS clear {#var prots {} {}}
+#ALIAS timer {#var %1 %ctime}
+#ALIAS formattime {#math tmptime %ctime-@%1;#math tmpmin @tmptime/60;#math tmpsek @tmptime-(@tmpmin*60);#if (@tmpmin=0) {#var timed @{tmpsek}s} {#var timed @{tmpmin}m@{tmpsek}s}}
+#ALIAS check {#if (@prots<>"") {party report Prots: ~[@prots~]} {party report Prots: none}}
+#ALIAS checkdegen {formattime degentime;party say Degen Time: @{timed}}
+#ALIAS batmap {#URL http://support.bat.org/batmap/webmap.pl?labels=yes}
+#ALIAS analon {#T+ Blastanal;#ECHO Blast Analysis On}
+#ALIAS analoff {#T- Blastanal;#ECHO Blast Analysis Off}
+#ALIAS spellroundson {#T+ spellrounds;#ECHO Spell Round Report: ON}
+#ALIAS spellroundsoff {#T- spellrounds;#ECHO Spell Round Report: OFF}
+#ALIAS timedcheck {#if (%ismember( HW, @prots)) {formattime hwtime;#var protstimed %additem( HW @timed, @protstimed)};#if (%ismember( Us, @prots)) {formattime unstuntime;#var protstimed %additem( Us @timed, @protstimed)};#if (%ismember( Flex, @prots)) {formattime Flextime;#var protstimed %additem( Flex @timed, @protstimed)};#if (%ismember( AOA, @prots)) {formattime aoatime;#var protstimed %additem( AOA @timed, @protstimed)};#if (%ismember( SoP, @prots)) {formattime Soptime;#var protstimed %additem( SoP @timed, @protstimed)};#if (%ismember( PfE, @prots)) {formattime pfetime;#var protstimed %additem( PfE @timed, @protstimed)};#if (%ismember( PfG, @prots)) {formattime pfgtime;#var protstimed %additem( PfG @timed, @protstimed)};#if (%ismember( Fire, @prots)) {formattime firetime;#var protstimed %additem( Fire @timed, @protstimed)};#if (%ismember( Elec, @prots)) {formattime electrictime;#var protstimed %additem( Elec @timed, @protstimed)};#if (%ismember( Psi, @prots)) {formattime psitime;#var protstimed %additem( Psi @timed, @protstimed)};#if (%ismember( Cold, @prots)) {formattime coldtime;#var protstimed %additem( Cold @timed, @protstimed)};#if (%ismember( Acid, @prots)) {formattime acidtime;#var protstimed %additem( Acid @timed, @protstimed)};#if (%ismember( Asphyx, @prots)) {formattime asphxtime;#var protstimed %additem( Asphyx @timed, @protstimed)};#if (%ismember( Poison, @prots)) {formattime poisontime;#var protstimed %additem( Poison @timed, @protstimed)};#if (%ismember( Magic, @prots)) {formattime magictime;#var protstimed %additem( Magic @timed, @protstimed)};#if (%ismember( G-Fire, @prots)) {formattime gfire;#var protstimed %additem( G-Fire @timed, @protstimed)};#if (%ismember( G-Acid, @prots)) {formattime gacid;#var protstimed %additem( G-Acid @timed, @protstimed)};#if (%ismember( G-Magic, @prots)) {formattime gmagic;#var protstimed %additem( G-Magic @timed, @protstimed)};#if (%ismember( G-Cold, @prots)) {formattime gcold;#var protstimed %additem( G-Cold @timed, @protstimed)};#if (%ismember( G-Psi, @prots)) {formattime gpsi;#var protstimed %additem( G-Psi @timed, @protstimed)};#if (%ismember( G-Poison, @prots)) {formattime gpoison;#var protstimed %additem( G-Poison @timed, @protstimed)};#if (%ismember( G-Elec, @prots)) {formattime gelec;#var protstimed %additem( G-Elec @timed, @protstimed)};#if (%ismember( G-Asphyx, @prots)) {formattime gasphyx;#var protstimed %additem( G-Asphyx @timed, @protstimed)};#if (%ismember( Embr, @prots)) {formattime emtime;#var protstimed %additem( Embr @timed, @protstimed)};#if (%ismember( War, @prots)) {formattime wartime;#var protstimed %additem( War @timed, @protstimed)};#if (%ismember( Aura, @prots)) {formattime aohtime;#var protstimed %additem( Aura @timed, @protstimed)};#if (%ismember( FAB, @prots)) {formattime forcetime;#var protstimed %additem( FAB @timed, @protstimed)};#if (%ismember( Fsh, @prots)) {formattime fstime;#var protstimed %additem( Fsh @timed, @protstimed)};#if (%ismember( Regen, @prots)) {formattime regentime;#var protstimed %additem( Regen @timed, @protstimed)};#if (%ismember( Unp, @prots)) {formattime unpaintime;#var protstimed %additem( Unp @timed, @protstimed)};#if (%ismember( Blur, @prots)) {formattime blurtime;#var protstimed %additem( Blur @timed, @protstimed)};#if (%ismember( Disp, @prots)) {formattime disptime;#var protstimed %additem( Disp @timed, @protstimed)};#if (%ismember( FF, @prots)) {formattime FFtime;#var protstimed %additem( FF @timed, @protstimed)};#if (%ismember( WW, @prots)) {formattime WWtime;#var protstimed %additem( WW @timed, @protstimed)};#if (%ismember( Touch, @prots)) {formattime Touchtime;#var protstimed %additem( Touch @timed, @protstimed)};#if (%ismember( MSup, @prots)) {formattime MSuptime;#var protstimed %additem( MSup @timed, @protstimed)};#if (%ismember( Forget, @prots)) {formattime forgettime;#var protstimed %additem( Forget @timed, @protstimed)};#if (%ismember( Eb, @prots)) {formattime ebtime;#var protstimed %additem( Eb @timed, @protstimed)};#if (%ismember( SWalk, @prots)) {formattime walktime;#var protstimed %additem( SWalk @timed, @protstimed)};#if (%ismember( E.Vital, @prots)) {formattime e.vitaltime;#var protstimed %additem( E.Vital @timed, @protstimed)};#if (%ismember( Luck, @prots)) {formattime archfav;#var protstimed %additem( Luck @timed, @protstimed)};#if (%ismember( QS, @prots)) {formattime qstime;#var protstimed %additem( QS @timed, @protstimed)};#if (%ismember( Epow, @prots)) {formattime epowertime;#var protstimed %additem( Epow @timed, @protstimed)};#if (%ismember( HvnlProt, @prots)) {formattime HvnlProt;#var protstimed %additem( HvnlProt @timed, @protstimed)};#if (%ismember( PsiShld, @prots)) {formattime pshtime;#var protstimed %additem( PsiShld @timed, @protstimed)};#if (%ismember( Vman, @prots)) {formattime vinetime;#var protstimed %additem( Vman @timed, @protstimed)};#if (%ismember( Eskin, @prots)) {formattime eskintime;#var protstimed %additem( Eskin @timed, @protstimed)};#if (%ismember( SoF, @prots)) {formattime shieldoffaithtime;#var protstimed %additem( SoF @timed, @protstimed)};#if (%ismember( ManShld, @prots)) {formattime manashldtime;#var protstimed %additem( ManShld @timed, @protstimed)};#if (%ismember( SoulShld, @prots)) {formattime SoulShld;#var protstimed %additem( SoulShld @timed, @protstimed)};#if (%ismember( Float, @prots)) {formattime Floattime;#var protstimed %additem( Float @timed, @protstimed)};#if (%ismember( Rage, @prots)) {formattime enragetime;#var protstimed %additem( Rage @timed, @protstimed)};#if (%ismember( PThresh, @prots)) {formattime threshtime;#var protstimed %additem( PThresh @timed, @protstimed)};#if (%ismember( PBS~(@pbsto~), @prots)) {formattime pbstime;#var protstimed %additem( PBS~(@pbsto~) @timed, @protstimed)};#if (%ismember( IW, @prots)) {formattime iwilltime;#var protstimed %additem( IW @timed, @protstimed)};#if (%ismember( DRage, @prots)) {formattime dragetime;#var protstimed %additem( DRage @timed, @protstimed)};#if (%ismember( G-Acid~(S~), @prots)) {formattime gacid;#var protstimed %additem( G-Acid~(S~) @timed, @protstimed)};#if (%ismember( G-Asphyx~(S~), @prots)) {formattime gasphyx;#var protstimed %additem( G-Asphyx~(S~) @timed, @protstimed)};#if (%ismember( G-Fire~(S~), @prots)) {formattime gfire;#var protstimed %additem( G-Fire~(S~) @timed, @protstimed)};#if (%ismember( AOA~(S~), @prots)) {formattime aoatime;#var protstimed %additem( AOA~(S~) @timed, @protstimed)};#if (%ismember( G-Magic~(S~), @prots)) {formattime gmagic;#var protstimed %additem( G-Magic~(S~) @timed, @protstimed)};#if (%ismember( G-Cold~(S~), @prots)) {formattime gcold;#var protstimed %additem( G-Cold~(S~) @timed, @protstimed)};#if (%ismember( G-Psi~(S~), @prots)) {formattime gpsi;#var protstimed %additem( G-Psi~(S~) @timed, @protstimed)};#if (%ismember( G-Elec~(S~), @prots)) {formattime gelec;#var protstimed %additem( G-Elec~(S~) @timed, @protstimed)};#if (%ismember( G-Poison~(S~), @prots)) {formattime gpoison;#var protstimed %additem( G-Poison~(S~) @timed, @protstimed)};#if (%ismember( LfLnk~(@lifelinked~), @prots)) {formattime lifelinktime;#var protstimed %additem( LfLnk~(@lifelinked~) @timed, @protstimed)};#if (%ismember( Infra, @prots)) {formattime infratime;#var protstimed %additem( Infra @timed, @protstimed)};#if (%ismember( Trance, @prots)) {formattime trancetime;#var protstimed %additem( Trance @timed, @protstimed)};#if (%ismember( E.Aware, @prots)) {formattime eawaretime;#var protstimed %additem( E.Aware @timed, @protstimed)};#IF (%ismember( LoL, @prots)) {formattime loltime;#var protstimed %additem( LoL @timed, @protstimed)};#IF (%ismember( BoT, @prots)) {formattime bottime;#var protstimed %additem( BoT @timed, @protstimed)};#IF (%ismember( SDrain, @prots)) {formattime SDraintime;#var protstimed %additem( SDrain @timed, @protstimed)};#IF (%ismember( GoD, @prots)) {formattime GoDtime;#var protstimed %additem( GoD @timed, @protstimed)};#if (%ismember( Fsh~(S~), @prots)) {formattime fstime;#var protstimed %additem( Fsh~(S~) @timed, @protstimed)};#if (%ismember( Invis, @prots)) {formattime invistime;#var protstimed %additem( Invis @timed, @protstimed)};#if (%ismember( R.Ent, @prots)) {formattime RessEnttime;#var protstimed %additem( R.Ent @timed, @protstimed)};#if (@protstimed<>"") {party report Prots: @{protstimed}} {party report Prots: none};#var protstimed {} {}}
+#VAR plantext {Files\zMud\plantexts\1.txt'} {Files\zMud\plantexts\1.txt'}
+#VAR Name {zMUD}
+#VAR Homepage {http://www.zuggsoft.com}
+#VAR VendorID {$4D8}
+#VAR ProductID {$D42E500}
+#VAR Password {zuggsecu}
+#VAR ExpChange {0}
+#VAR CurrentExp {227252}
+#VAR OldExp {0}
+#VAR Exp {0} {0}
+#VAR expone {0}
+#VAR exptwo {227252}
+#VAR TotalExp {0}
+#VAR SkillName {Skillname}
+#VAR perc {: @ (.%)}
+#VAR round_blow {0} {0}
+#VAR eshield {0} {0}
+#VAR mana {0} {0}
+#VAR reg {0} {0}
+#VAR skill {0} {0}
+#VAR stunres {0} {0}
+#VAR thin {0} {0}
+#VAR hpb {0} {0}
+#VAR stone {0} {0}
+#VAR thick {0} {0}
+#VAR minutes {0} {0}
+#VAR protstimed {} {}
+#VAR enr {0}
+#VAR conjprot {} {}
+#VAR prots {} {}
+#VAR eskin {0} {0}
+#VAR vines {0} {0}
+#VAR infratime {627}
+#VAR currenttime {-199637785628}
+#VAR tmptime {753}
+#VAR tmpmin {12}
+#VAR tmpsek {33}
+#VAR timed {12m33s}
+#VAR unstuntime {10494}
+#VAR caster {Me}
+#VAR forcetime {6556}
+#VAR fstime {11779}
+#VAR unptime {6811}
+#VAR linkeddude {} {}
+#VAR melodytime {338}
+#VAR flextime {4370}
+#VAR ebloodtime {1119468189}
+#VAR aoatime {33303}
+#VAR wartime {6039}
+#VAR lucktime {-199637785640}
+#VAR deathrectime {7557}
+#VAR unrecovered {13}
+#VAR shoptime {165}
+#VAR flstime {1120758991}
+#VAR ratime {7120}
+#VAR poisontime {3495}
+#VAR electrictime {39697}
+#VAR wwtime {17484}
+#VAR invistime {13174}
+#VAR floattime {10966}
+#VAR frotime {22768}
+#VAR hwtime {26753}
+#VAR softime {1119869563}
+#VAR psitime {3632}
+#VAR pfetime {19114}
+#VAR firetime {42771}
+#VAR magictime {4077}
+#VAR coldtime {3860}
+#VAR earthptime {3251}
+#VAR auraofhate {0}
+#VAR auracheck {0}
+#VAR lshtime {-19963778567}
+#VAR auracaster {}
+#VAR aohtime {16698}
+#VAR psptime {1118346139}
+#VAR sstime {1120397810}
+#VAR pfgtime {4281}
+#VAR sodtime {-199637785658}
+#VAR bottime {7073}
+#VAR acidshieldtime {1120319594}
+#VAR qstime {6000}
+#VAR asphxtime {36247}
+#VAR acidtime {26627}
+#VAR hprottime {1114007232}
+#VAR aowtime {1120673389}
+#VAR sinvtime {-199637785629}
+#VAR protectdude {} {}
+#VAR seemtime {3203}
+#VAR pshieldtime {1111778731}
+#VAR regtime {1113071778}
+#VAR unpaintime {19035}
+#VAR epowertime {6243}
+#VAR Soptime {33343}
+#VAR eskintime {6905}
+#VAR regentime {7060}
+#VAR vinetime {10675}
+#VAR shieldoffaithtime {21937}
+#VAR frostime {1030924051}
+#VAR emtime {18917}
+#VAR ebtime {38707}
+#VAR saoatime {1042838122}
+#VAR gfire {16596}
+#VAR gpoison {12597}
+#VAR gcold {5875}
+#VAR gelec {210}
+#VAR gasphyx {4111}
+#VAR gmagic {3560}
+#VAR gpsi {3054}
+#VAR gacid {2957}
+#VAR stickfab {0}
+#VAR stickelec {0}
+#VAR stickasphx {0}
+#VAR stickpsi {0}
+#VAR stickfire {0}
+#VAR stickcold {0}
+#VAR stickpoison {0}
+#VAR stickmagic {0}
+#VAR stickacid {0}
+#VAR archfav {10780}
+#VAR stuckgmagic {0}
+#VAR stuckgpoison {0}
+#VAR stuckgasphx {0}
+#VAR stuckgacid {0}
+#VAR stuckgelec {0}
+#VAR stuckaoa {0}
+#VAR stuckgcold {0}
+#VAR stuckgfire {0}
+#VAR stuckgpsi {0}
+#VAR boftime {19100}
+#VAR fftime {3180}
+#VAR blasttype {Magical}
+#VAR degentime {NONE}
+#VAR disptime {33369}
+#VAR blurtime {33355}
+#VAR sama {disp}
+#VAR touchtime {7350}
+#VAR suptime {18547}
+#VAR msuptime {2939}
+#VAR MStime {262}
+#VAR forgot {17939}
+#VAR forgettime {6350}
+#VAR lowhp {200}
+#VAR mytank {Murrough}
+#VAR pldr {Ssmud}
+#VAR INPARTY {1}
+#VAR SoulShld {7300}
+#VAR walktime {12196}
+#VAR degenlast {none}
+#VAR cotlast {none}
+#VAR cottime {NONE}
+#VAR pshtime {275}
+#VAR manashldtime {16153}
+#VAR touchlast {none}
+#VAR pbstime {30552}
+#VAR pbsto {Bippo}
+#VAR skins {0} {0}
+#VAR threshtime {11465}
+#VAR enragetime {11422}
+#VAR iwilltime {17813}
+#VAR RessEnttime {2477}
+#VAR dragetime {16104}
+#VAR stickys {0} {0}
+#VAR lifelinktime {5757}
+#VAR lifelinked {Kori}
+#VAR trance {0} {0}
+#VAR window {1}
+#VAR mobdegenlast {NONE}
+#VAR mobcotlast {none}
+#VAR mobtouchlast {none}
+#VAR mobtouchtime {NONE}
+#VAR trancetime {3724}
+#VAR mobcottime {NONE}
+#VAR mobdegentime {NONE}
+#VAR myname {}
+#VAR currentversion {Dec_1_2006}
+#VAR campingstatus {} {}
+#VAR eawaretime {10625}
+#VAR explore1 {150.229995727539}
+#VAR explore2 {13070.009765625}
+#VAR explore3 {55.009765625}
+#VAR exploreperc {87}
+#VAR camptime {25644}
+#VAR lastreinc1 {May}
+#VAR lastreinc2 {18}
+#VAR lastreinc3 {2006}
+#VAR spcur {1302}
+#VAR spmax {1302}
+#VAR party_symbol1 {}
+#VAR pmembers {} {}
+#VAR cere {0} {0}
+#VAR expforskill {0}
+#VAR shelterforcedome {}
+#VAR pscanparty {0}
+#VAR pfixa {0}
+#VAR tenp {}
+#VAR pscanplace {7}
+#VAR targeting {test} {test}
+#VAR mobdegened {} {}
+#VAR mobtouched {} {}
+#VAR mobcotted {} {}
+#VAR pld {ssmud}
+#VAR 0 {0}
+#TRIGGER {^You lose your concentration and cannot} {party say Lost Concentration!}
+#TRIGGER {^That really HURT!} {party say HURT!} "" {case}
+#TRIGGER {^(%w) lapses into unconsciousness from severe loss of blood.} {#COLOR red;party say %1 is UNCONSCIOUS!} "" {case}
+#TRIGGER {...BUT you break it off with intense concentration.} {party say Broke Stun with Maneuver}
+#TRIGGER {^You score a ~*CRITICAL~* hit!} {#color white;party say STAR CRIT!!!}
+#TRIGGER {^You SAVE against POISON.} {party say Saved against: Poison}
+#TRIGGER {^You get hit hard but your discipline saves concentration} {party say Discipline Saved Concentration!}
+#TRIGGER {^{grinning|smiling|cackling} {devilishly|demonically|diabolically} %w * you *} {party say I took a crit!}
+#REGEX {^You feel like (\a+) healed you a bit\.} {party say Got Heal From: ~(%1~)}
+#TRIGGER {^You are cured of your addiction to killing by (%w).} {party say %1 cured addiction.}
+#TRIGGER {(%w)'s spell makes you feel much better!} {party report}
+#TRIGGER {^You feel like you just got slightly better in} {#COLOR 10}
+#TRIGGER {duplicates, clones, of all the mortals of BatMUD have been brought into this} {party report Clone Event On}
+#TRIGGER {^You are no longer stunned.} {party report Broke Stun}
+#TRIGGER {^You shiver and suffer from POISON!!} {party report Poisoned!}
+#TRIGGER {^You cannot leave, you have been AMBUSHED.} {party report Ambushed!!} "" {case|notrig}
+#TRIGGER {^You are about to DIE!} {party report About to Die!!} "" {case|notrig}
+#TRIGGER {^You feel the poison leaving your veins!} {party report Poison gone}
+#TRIGGER {^You feel that ([a-z,0-9,' ','~-','~'',',']) doesn't enjoy your presence.} {party report Banished By: ~[%1]} "" {notrig}
+#TRIGGER {^(%w) disappears into thick air.} {party report ---- %1 WAS BANISHED! ----} "" {case}
+#TRIGGER {^You shiver and feel strange.} {party report Curse off} "" {case|notrig}
+#TRIGGER {^You successfully depress (*).} {party report Mellon Collie to %1: ~[Successful]}
+#TRIGGER {^{An|A} ([a-z,0-9,' ','~-','~'',',']) hits you.} {party report Hit by a ~[%1]}
+#TRIGGER {^(%w) has summoned you!} {party report Summoned by: %1}
+#TRIGGER {Exp:(%d)} {#math expone (%1-@exptwo);#if @expone<>0 {#alarm +0:0:01 {#Echo Exp Change: <@Expone>}};exptwo=%1;#Var CurrentExp %1;#math expforskill (@totalexp-@CurrentExp);#IF (@expforskill<0) {#VAR expforskill 0}}
+#TRIGGER {^(%w) utters the magic words 'sahanpurua'} {party report ATTENTION: %1 casted DISINTEGRATE!!}
+#TRIGGER {lapses into unconsciousness from severe loss of blood.} {#cw 3}
+#TRIGGER {The sphere neutralizes the force field that is surrounding this area.} {#cw blue}
+#TRIGGER {and suddenly lapses into unconsciousness!} {#cw red}
+#REGEX {^You rescue} {#cw yellow}
+#TRIGGER {PUFF! Glaced} {#cw red}
+#TRIGGER {^You plant your feet and cry out 'I will not be moved!'} {#cw brown}
+#TRIGGER {utters the magic words 'mesmr pulrl metism'} {#cw red}
+#TRIGGER {^%w tweaks your nose mischievously.} {timedcheck}
+#TRIGGER {^([a-z,' ','~-','~'',',']) got mad at hostile actions.} {party say %1 aggroed!}
+#TRIGGER {^([a-z,' ','~-','~'',',']) is disintegrated.} {party say Attention: %1 GOT DISINTEGRATED!!!}
+#TRIGGER {^([a-z,' ','~-','~'',',']) is disturbed by spellcasting.} {party say %1 aggroed!}
+#TRIGGER {^([a-z,' ','~-','~'',',']) utters the magic words 'saugaiii'} {#ECHO %1 has casted Poison} "" {notrig}
+#KEY F6 {#ECHO {.-----Triggers by Ssmud----------------------------------------------------------.};#ECHO {| ripon = Enables RIP Trigger | check = quote prots to party report |};#ECHO {| ripoff = Disable RIP Trigger | timedcheck = check +times on prots |};#ECHO {| clear = reset current prots on you | F12 = Check Curse Timers |};#ECHO {| Having someone "tweak" you = timedcheck | F6 = Shows this Help File Again. |};#ECHO {| Having someone "twirl" you = F12 |};#ECHO {| spellroundson = Quotes Spell Rounds to party | spellroundsoff = disables quote |};#ECHO {'__________________________________________________-Triggers by Ssmud-___________'}}
+#KEY F12 {formattime mobdegentime;#var mobdegenlast @{timed};formattime mobcottime;#var mobcotlast @{timed};formattime mobtouchtime;#var mobtouchlast @{timed};#IF @mobdegenlast=0s {#VAR mobdegenlast none};#IF @mobcotlast=0s {#VAR mobcotlast none};#IF @mobtouchlast=0s {#VAR mobtouchlast none};party report ~[Twirl me~]~{~[D:(@mobdegened) @{mobdegenlast}~] ~[C:(@mobcotted) @{mobCotlast}~] ~[T:(@mobtouched) @{mobtouchlast}~]}
+#STAT {@skillname: @expforskill || Trigs: @currentversion || Prots: @prots}
+#CLASS {System|Pueblo}
+
+#CLASS 0
+#CLASS {SlowWalk}
+#CLASS 0
+#CLASS {Tarmalen} {enable}
+#TRIGGER {^(%w) accepts (%w) from you.} {party say %1 accepted %2}
+#TRIGGER {'mumbo jumbo'} {#Echo DEATHS DOOR HAS BEEN CASTED!}
+#CLASS 0
+#CLASS {Chests}
+#TRIGGER {labeled as (*) ~(open~)} {#ECHO %1~: Open}
+#TRIGGER {labeled as (*) ~(unlocked~)} {#ECHO %1~: Unlocked}
+#CLASS 0
+#CLASS {Prot-ID}
+#TRIGGER {'gimme a boltz'} {#sub {'gimme a boltz' %ansi(white)(call lightning)}}
+#TRIGGER {'omm zur semen'} {#sub {'omm zur semen' %ansi(white)(Psi blast)}}
+#TRIGGER {'nyyjoo happa hilleiksis'} {#sub {'nyyjoo happa hilleiksis' %ansi(white)(Skill Drain)}}
+#TRIGGER {^(%w) (*) 'ohm'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {'tonnikalaa'} {#sub {'tonnikalaa' %ansi(white)(Heavy weight)}}
+#TRIGGER {'..... .... ... ..  .    .!'} {#sub {'..... .... ... .. . .!' %ansi(white)(Invisibility)}}
+#TRIGGER {'~$~%~&~@ ~#~*~%~@~*~@~# ~$~&~*~@~#'} {#sub {'$%&@ #*%@*@# $&*@#' %ansi(white)(See invisible)}}
+#TRIGGER {'~^ ~!~)'} {#sub {'^ !)' %ansi(white)(Flex shield)}}
+#TRIGGER {'demoni on pomoni'} {#sub {'demoni on pomoni' %ansi(white)(Infravision)}}
+#TRIGGER {'diiiiuuunz aaanziz'} {#sub {'diiiiuuunz aaanziz' %ansi(white)(Displacement)}}
+#TRIGGER {'good is dumb'} {#sub {'good is dumb' %ansi(white)(Protection from good)}}
+#TRIGGER {'Grant your worshipper your protection'} {#sub {'Grant your worshipper your protection' %ansi(white)(Shield of faith)}}
+#TRIGGER {'harnaxan temnahecne'} {#sub {'harnaxan temnahecne' %ansi(white)(Unpain)}}
+#TRIGGER {'Jeeeeeeeeeeeesuuuuuuuus'} {#sub {'Jeeeeeeeeeeeesuuuuuuuus' %ansi(white)(Water walking)}}
+#TRIGGER {'nilaehz arzocupne'} {#sub {'nilaehz arzocupne' %ansi(white)(Blessing of tarmalen)}}
+#TRIGGER {'nilaehz temnahecne'} {#sub {'nilaehz temnahecne' %ansi(white)(Regeneration/Curse of tarmalen)}}
+#TRIGGER {'nsiiznau'} {#sub {'nsiiznau' %ansi(white)(Shield of protection)}}
+#TRIGGER {'ziiiuuuuns wiz'} {#sub {'ziiiuuuuns wiz' %ansi(white)(Blurred image)}}
+#TRIGGER {'hot hot not zeis daimons'} {#sub {'hot hot not zeis daimons' %ansi(white)(Heat reduction)}}
+#TRIGGER {'kablaaaammmmm bliitz zundfer'} {#sub {'kablaaaammmmm bliitz zundfer' %ansi(white)(Energy channeling)}}
+#TRIGGER {'meke tul magic'} {#sub {'meke tul magic' %ansi(white)(Magic dispersion)}}
+#TRIGGER {'morri nam pantoloosa'} {#sub {'morri nam pantoloosa' %ansi(white)(Toxic dilution)}}
+#TRIGGER {'qor monoliftus'} {#sub {'qor monoliftus' %ansi(white)(Ether boundary)}}
+#TRIGGER {'skaki barictos yetz fiil'} {#sub {'skaki barictos yetz fiil' %ansi(white)(Frost insulation)}}
+#TRIGGER {'sulphiraidzik hydrochloodriz gidz zuf'} {#sub {'sulphiraidzik hydrochloodriz gidz zuf' %ansi(white)(Corrosion shield)}}
+#TRIGGER {'toughen da mind reeez un biis'} {#sub {'toughen da mind reeez un biis' %ansi(white)(Psychic sanctuary)}}
+#TRIGGER {'ztonez des deckers'} {#sub {'ztonez des deckers' %ansi(white)(Force absorption)}}
+#TRIGGER {'sanctus Exzordus'} {#sub {'sanctus Exzordus' %ansi(white)(Protection from evil)}}
+#TRIGGER {'tuo fo wen stanhc'} {#sub {'tuo fo wen stanhc' %ansi(white)(Resurrect)}}
+#TRIGGER {'vokinsalak elfirtluassa'} {#sub {'vokinsalak elfirtluassa' %ansi(white)(Raise dead)}}
+#TRIGGER {'I HATE MAGIC'} {#sub {'I HATE MAGIC' %ansi(white)(Mana drain)}}
+#TRIGGER {'sanctus angeliq'} {#sub {'sanctus angeliq' %ansi(white)(Soul shield)}}
+#TRIGGER {'lkzaz zueei enz orn'} {#sub {'lkzaz zueei enz orn' %ansi(white)(Remove scar)}}
+#TRIGGER {'fooohh haaahhh booooloooooh'} {#sub {'fooohh haaahhh booooloooooh' %ansi(white)(Aura detection)}}
+#TRIGGER {'withing thang walz'} {#sub {'withing thang walz' %ansi(white)(Shelter)}}
+#TRIGGER {'removezzzzzarmour'} {#sub {'removezzzzzarmour' %ansi(white)(Dispel magical protection)}}
+#TRIGGER {'ful'} {#sub {'ful' %ansi(white)(Light)}}
+#TRIGGER {'na ful'} {#sub {'na ful' %ansi(white)(Darkness)}}
+#TRIGGER {'vas na ful'} {#sub {'vas na ful' %ansi(white)(Greater darkness)}}
+#TRIGGER {'greeeenie fiiingerie'} {#sub {'greeeenie fiiingerie' %ansi(white)(Create herb)}}
+#TRIGGER {'Paxus'} {#sub {'Paxus' %ansi(white)(Unstun)}}
+#TRIGGER {'infernalicus domus arachnid rex'} {#sub {'infernalicus domus arachnid rex' %ansi(white)(Spider demon control)}}
+#TRIGGER {'cah mar nak grttzt'} {#sub {'cah mar nak grttzt' %ansi(white)(Cold ray)}}
+#TRIGGER {'PAF PAF PAF!'} {#sub {'PAF PAF PAF!' %ansi(white)(Harm body)}}
+#TRIGGER {'fah mar nak grttzt'} {#sub {'fah mar nak grttzt' %ansi(white)(Lava blast)}}
+#TRIGGER {'ghht mar nak grttzt'} {#sub {'ghht mar nak grttzt' %ansi(white)(Blast vacuum)}}
+#TRIGGER {'fzz mar nak grttzt'} {#sub {'fzz mar nak grttzt' %ansi(white)(Acid blast)}}
+#TRIGGER {'krkx mar nak grttzt'} {#sub {'krkx mar nak grttzt' %ansi(white)(Summon carnal spores)}}
+#TRIGGER {'zot mar nak grttzt'} {#sub {'zot mar nak grttzt' %ansi(white)(Electrocution)}}
+#TRIGGER {'gtzt mar nak grttzt'} {#sub {'gtzt mar nak grttzt' %ansi(white)(Golden arrow)}}
+#TRIGGER {'gtzt zur fehh'} {#sub {'gtzt zur fehh' %ansi(white)(Magic missile)}}
+#TRIGGER {'fzz zur semen'} {#sub {'fzz zur semen' %ansi(white)(Acid arrow)}}
+#TRIGGER {'fah mar nak grttzt gnatlnamauch'} {#sub {'fah mar nak grttzt gnatlnamauch' %ansi(white)(Lava storm)}}
+#TRIGGER {'ghht mar nak grttzt gnatlnamauch'} {#sub {'ghht mar nak grttzt gnatlnamauch' %ansi(white)(Vacuum globe)}}
+#TRIGGER {'krkx mar nak grttzt gnatlnamauch'} {#sub {'krkx mar nak grttzt gnatlnamauch' %ansi(white)(Killing cloud)}}
+#TRIGGER {'fzz mar nak grttzt gnatlnamauch'} {#sub {'fzz mar nak grttzt gnatlnamauch' %ansi(white)(Acid storm)}}
+#TRIGGER {'gtzt mar nak grttzt gnatlnamauch'} {#sub {'gtzt mar nak grttzt gnatlnamauch' %ansi(white)(Magic eruption)}}
+#TRIGGER {'flzeeeziiiiying nyyyaaa'} {#sub {'flzeeeziiiiying nyyyaaa' %ansi(white)(Go)}}
+#TRIGGER {'xafe ayz xckgandhuzqarr'} {#sub {'xafe ayz xckgandhuzqarr' %ansi(white)(Teleport without error)}}
+#TRIGGER {'Judicandee iocus merciaa Tarmalen'} {#sub {'Judicandee iocus merciaa Tarmalen' %ansi(white)(Guardian angel)}}
+#TRIGGER {'Ziiiiiiiiiiit Ziit Ziiiit'} {#sub {'Ziiiiiiiiiiit Ziit Ziiiit' %ansi(white)(Electric field)}}
+#TRIGGER {'habbi urblk'} {#sub {'habbi urblk' %ansi(white)(Call pigeon)}}
+#TRIGGER {'~%'} {#sub {'%' %ansi(white)(Earthquake)}}
+#TRIGGER {'~$ ~!~^'} {#sub {'$ !^' %ansi(white)(Drain pool)}}
+#TRIGGER {'~# ~!~('} {#sub {'# !(' %ansi(white)(Charge staff)}}
+#TRIGGER {'huku mopo huku'} {#sub {'huku mopo huku' %ansi(white)(Rain)}}
+#TRIGGER {'hooooooooooowwwwwwwwwwwlllllllllllllll'} {#sub {'hooooooooooowwwwwwwwwwwlllllllllllllll' %ansi(white)(Drying wind)}}
+#TRIGGER {'~# ~!~#'} {#sub {'# !#' %ansi(white)(Create mud)}}
+#TRIGGER {'Zmasching Pupkins's infanitsadnnes'} {#sub {'Zmasching Pupkins's infanitsadnnes' %ansi(white)(Mellon collie)}}
+#TRIGGER {'yugzhrr paf'} {#sub {'yugzhrr paf' %ansi(white)(Aneurysm)}}
+#TRIGGER {'rhuuuumm angotz amprltz'} {#sub {'rhuuuumm angotz amprltz' %ansi(white)(Cause serious wounds)}}
+#TRIGGER {'rhuuuumm angotz klekltz'} {#sub {'rhuuuumm angotz klekltz' %ansi(white)(Cause critical wounds)}}
+#TRIGGER {'yugzhrr'} {#sub {'yugzhrr' %ansi(white)(Hemorrhage)}}
+#TRIGGER {'whoosy banzziii pal eeeiizz dooneb'} {#sub {'whoosy banzziii pal eeeiizz dooneb' %ansi(white)(Dispel good)}}
+#TRIGGER {'ZAP ZAP ZAP!'} {#sub {'ZAP ZAP ZAP!' %ansi(white)(Heal body)}}
+#TRIGGER {'viiltaja jaska'} {#sub {'viiltaja jaska' %ansi(white)(Make scar)}}
+#TRIGGER {'Bastage'} {#sub {'Bastage' %ansi(white)(Bastardly balm)}}
+#TRIGGER {'With this ring, i do deconsecrate thee'} {#sub {'With this ring, i do deconsecrate thee' %ansi(white)(Unholy matrimony)}}
+#TRIGGER {'saugaiii'} {#sub {'saugaiii' %ansi(white)(Poison)}}
+#TRIGGER {'moon fiksu, soot tyhma  - opi tasta taika'} {#sub {'moon fiksu, soot tyhma - opi tasta taika' %ansi(white)(Spellteaching)}}
+#TRIGGER {'aamad ato naav aanarub atyak ala'} {#sub {'aamad ato naav aanarub atyak ala' %ansi(white)(Psychic purge)}}
+#TRIGGER {'niihek atierapip aj niiramaan aaffaj'} {#sub {'niihek atierapip aj niiramaan aaffaj' %ansi(white)(Psionic shield)}}
+#TRIGGER {'nostaaaanndiz noszum'} {#sub {'nostaaaanndiz noszum' %ansi(white)(Iron will)}}
+#TRIGGER {'xulu tango charlie'} {#sub {'xulu tango charlie' %ansi(white)(Force dome)}}
+#TRIGGER {'wheeeaaaaaa oooooo'} {#sub {'wheeeaaaaaa oooooo' %ansi(white)(Field of fear)}}
+#TRIGGER {'ragus on etsat mumixam!'} {#sub {'ragus on etsat mumixam!' %ansi(white)(Unstable mutation)}}
+#TRIGGER {'vaxtextraktdryck'} {#sub {'vaxtextraktdryck' %ansi(white)(Mental glance)}}
+#TRIGGER {'vorek ky taree'} {#sub {'vorek ky taree' %ansi(white)(Paralyze)}}
+#TRIGGER {'kakakaaa tsooon'} {#sub {'kakakaaa tsooon' %ansi(white)(Mental watch)}}
+#TRIGGER {'peilikuvia ja lasinsirpaleita'} {#sub {'peilikuvia ja lasinsirpaleita' %ansi(white)(Mirror image)}}
+#TRIGGER {'~% ~!~('} {#sub {'% !(' %ansi(white)(Earth skin)}}
+#TRIGGER {'~% ~!~^'} {#sub {'% !^' %ansi(white)(Earth power)}}
+#TRIGGER {'~!~('} {#sub {'!(' %ansi(white)(Shapechange)}}
+#TRIGGER {'~!~( ~!~!'} {#sub {'!( !!' %ansi(white)(Star light)}}
+#TRIGGER {'~!~* ~*'} {#sub {'!* *' %ansi(white)(Runic heal)}}
+#TRIGGER {'Annatheer graaweizta'} {#sub {'Annatheer graaweizta' %ansi(white)(Mind development)}}
+#TRIGGER {'omm zur fehh'} {#sub {'omm zur fehh' %ansi(white)(Mind blast)}}
+#TRIGGER {'omm zur sanc'} {#sub {'omm zur sanc' %ansi(white)(Psibolt)}}
+#TRIGGER {'omm mar nak semen'} {#sub {'omm mar nak semen' %ansi(white)(Mind disruption)}}
+#TRIGGER {'tora tora tora'} {#sub {'tora tora tora' %ansi(white)(Psychic crush)}}
+#TRIGGER {'omm zur semen gnatlnamauch'} {#sub {'omm zur semen gnatlnamauch' %ansi(white)(Psychic shout)}}
+#TRIGGER {'omm mar nak grttzt gnatlnamauch'} {#sub {'omm mar nak grttzt gnatlnamauch' %ansi(white)(Psychic storm)}}
+#TRIGGER {'fzz mar nak semen'} {#sub {'fzz mar nak semen' %ansi(white)(Acid ray)}}
+#TRIGGER {'zot mar nak semen'} {#sub {'zot mar nak semen' %ansi(white)(Forked lightning)}}
+#TRIGGER {'krkx zur fehh'} {#sub {'krkx zur fehh' %ansi(white)(Thorn spray)}}
+#TRIGGER {'krkx zur semen'} {#sub {'krkx zur semen' %ansi(white)(Venom strike)}}
+#TRIGGER {'ghht zur fehh'} {#sub {'ghht zur fehh' %ansi(white)(Vacuum bolt)}}
+#TRIGGER {'ghht zur sanc gnatlnamauch'} {#sub {'ghht zur sanc gnatlnamauch' %ansi(white)(Vacuum ball)}}
+#TRIGGER {'gtzt zur semen gnatlnamauch'} {#sub {'gtzt zur semen gnatlnamauch' %ansi(white)(Magic wave)}}
+#TRIGGER {'gtzt zur sanc'} {#sub {'gtzt zur sanc' %ansi(white)(Summon lesser spores)}}
+#TRIGGER {'gtzt mar nak semen'} {#sub {'gtzt mar nak semen' %ansi(white)(Summon greater spores)}}
+#TRIGGER {'ghht zur zac'} {#sub {'ghht zur fehh' %ansi(white)(Suffocation)}}
+#TRIGGER {'ghht mar nak semen'} {#sub {'ghht mar nak semen' %ansi(white)(Strangulation)}}
+#TRIGGER {'zot zur fehh'} {#sub {'zot zur fehh' %ansi(white)(Shocking grasp)}}
+#TRIGGER {'krkx mar nak semen'} {#sub {'krkx mar nak semen' %ansi(white)(Power blast)}}
+#TRIGGER {'krkx zur sanc gnatlnamauch'} {#sub {'krkx zur sanc gnatlnamauch' %ansi(white)(Poison spray)}}
+#TRIGGER {'krkx zur sanc'} {#sub {'krkx zur sanc' %ansi(white)(Poison blast)}}
+#TRIGGER {'fah zur sanc gnatlnamauch'} {#sub {'fah zur sanc gnatlnamauch' %ansi(white)(Meteor swarm)}}
+#TRIGGER {'zot mar nak grttzt gnatlnamauch'} {#sub {'zot mar nak grttzt gnatlnamauch' %ansi(white)(Lightning storm)}}
+#TRIGGER {'gtzt zur semen'} {#sub {'gtzt zur semen' %ansi(white)(Levin bolt)}}
+#TRIGGER {'cah mar nak semen'} {#sub {'cah mar nak semen' %ansi(white)(Icebolt)}}
+#TRIGGER {'fah zur fehh'} {#sub {'fah zur fehh' %ansi(white)(Flame arrow)}}
+#TRIGGER {'fah zur sanc'} {#sub {'fah zur sanc' %ansi(white)(Firebolt)}}
+#TRIGGER {'fah zur semen'} {#sub {'fah zur semen' %ansi(white)(Fire blast)}}
+#TRIGGER {'fzz zur fehh'} {#sub {'fzz zur fehh' %ansi(white)(Disruption)}}
+#TRIGGER {'ghht zur semen'} {#sub {'ghht zur semen' %ansi(white)(Chaos bolt)}}
+#TRIGGER {'zot zur semen'} {#sub {'zot zur semen' %ansi(white)(Blast lightning)}}
+#TRIGGER {'fzz zur sanc gnatlnamauch'} {#sub {'fzz zur sanc gnatlnamauch' %ansi(white)(Acid rain)}}
+#TRIGGER {'fzz zur sanc'} {#sub {'fzz zur sanc' %ansi(white)(Acid wind)}}
+#TRIGGER {'zot zur sanc'} {#sub {'zot zur sanc' %ansi(white)(Lightning bolt)}}
+#TRIGGER {'fah mar nak semen'} {#sub {'fah mar nak semen' %ansi(white)(Meteor blast)}}
+#TRIGGER {'rise Rise RISE'} {#sub {'rise Rise RISE' %ansi(white)(Floating)}}
+#TRIGGER {'daaa timaaa of daaa maaanth'} {#sub {'daaa timaaa of daaa maaanth' %ansi(white)(Moon sense)}}
+#TRIGGER {'cah zur fehh'} {#sub {'cah zur fehh' %ansi(white)(Chill touch)}}
+#TRIGGER {'cah zur sanc'} {#sub {'cah zur sanc' %ansi(white)(Flaming ice)}}
+#TRIGGER {'cah zur semen gnatlnamauch'} {#sub {'cah zur semen gnatlnamauch' %ansi(white)(Cone of cold)}}
+#TRIGGER {'cah mar nak grttzt gnatlnamauch'} {#sub {'cah mar nak grttzt gnatlnamauch' %ansi(white)(Hailstorm)}}
+#TRIGGER {'cah zur semen'} {#sub {'cah zur semen' %ansi(white)(Darkfire)}}
+#TRIGGER {'zing yulygul bugh'} {#sub {'zing yulygul bugh' %ansi(white)(Fireball)}}
+#TRIGGER {'rex car bus xzar'} {#sub {'rex car bus xzar' %ansi(white)(Floating disc)}}
+#TRIGGER {'jumpiiz laika wabbitzz'} {#sub {'jumpiiz laika wabbitzz' %ansi(white)(Quicksilver)}}
+#TRIGGER {'roope ankka ruleltaa'} {#sub {'roope ankka ruleltaa' %ansi(white)(Create money)}}
+#TRIGGER {'mega visa huijari'} {#sub {'mega visa huijari' %ansi(white)(Identify)}}
+#TRIGGER {'blueeeeeeeeeee****saka??am!a'} {#sub {'blueeeeeeeeeee****saka??am!a' %ansi(white)(Protect armour/item/weapon)}}
+#TRIGGER {'bat-o-mat'} {#sub {'bat-o-mat' %ansi(white)(Remote banking)}}
+#TRIGGER {'havia kauhistus pois'} {#sub {'havia kauhistus pois' %ansi(white)(Banish)}}
+#TRIGGER {'buuuummbzdiiiiiibummm'} {#sub {'buuuummbzdiiiiiibummm' %ansi(white)(Mobile cannon)}}
+#TRIGGER {'gwwaaajj'} {#sub {'gwwaaajj' %ansi(white)(Summon)}}
+#TRIGGER {'mad rad dar'} {#sub {'mad rad dar' %ansi(white)(Wizard eye)}}
+#TRIGGER {'xafe xyyqh xckgandhuzqarr'} {#sub {'xafe xyyqh xckgandhuzqarr' %ansi(white)(Teleport with error)}}
+#TRIGGER {'annihilar hzzz golum'} {#sub {'annihilar hzzz golum' %ansi(white)(Detect alignment)}}
+#TRIGGER {'freudemas egoid'} {#sub {'freudemas egoid' %ansi(white)(Cure player)}}
+#TRIGGER {'Creo Herbamus Satisfus'} {#sub {'Creo Herbamus Satisfus' %ansi(white)(Satiate person)}}
+#TRIGGER {'naxanhar hecnatemne'} {#sub {'naxanhar hecnatemne' %ansi(white)(Soul hold)}}
+#TRIGGER {'Impetiquo es bien'} {#sub {'Impetiquo es bien' %ansi(white)(Lessen poison)}}
+#TRIGGER {'Siwa on selvaa saastoa'} {#sub {'Siwa on selvaa saastoa' %ansi(white)(Restore)}}
+#TRIGGER {'judicandus saugaiii'} {#sub {'judicandus saugaiii' %ansi(white)(Remove poison)}}
+#TRIGGER {'judicandus littleee'} {#sub {'judicandus littleee' %ansi(white)(Heal self)}}
+#TRIGGER {'judicandus mercuree'} {#sub {'judicandus mercuree' %ansi(white)(Cure light wounds)}}
+#TRIGGER {'judicandus ignius'} {#sub {'judicandus ignius' %ansi(white)(Cure serious wounds)}}
+#TRIGGER {'judicandus mangenic'} {#sub {'judicandus mangenic' %ansi(white)(Cure critical wounds)}}
+#TRIGGER {'judicandus pzarcumus'} {#sub {'judicandus pzarcumus' %ansi(white)(Minor heal)}}
+#TRIGGER {'judicandus pafzarmus'} {#sub {'judicandus pafzarmus' %ansi(white)(Major heal)}}
+#TRIGGER {'judicandus zapracus'} {#sub {'judicandus zapracus' %ansi(white)(True heal)}}
+#TRIGGER {'pzzarr paf'} {#sub {'pzzarr paf' %ansi(white)(Half heal)}}
+#TRIGGER {'judicandus puorgo  ignius'} {#sub {'judicandus puorgo ignius' %ansi(white)(Minor party heal)}}
+#TRIGGER {'judicandus puorgo mangenic'} {#sub {'judicandus puorgo mangenic' %ansi(white)(Major party heal)}}
+#TRIGGER {'Corporem Connecticut Corporee'} {#sub {'Corporem Connecticut Corporee' %ansi(white)(Life link)}}
+#TRIGGER {'Naturallis Judicandus Imellys'} {#sub {'Naturallis Judicandus Imellys' %ansi(white)(Natural renewal)}}
+#TRIGGER {'koko mudi kuntoon, hep'} {#sub {'koko mudi kuntoon, hep' %ansi(white)(Heal all)}}
+#TRIGGER {'mumbo jumbo'} {#sub {'mumbo jumbo' %ansi(white)(Deaths door)}}
+#TRIGGER {'likz az zurgeeon'} {#sub {'likz az zurgeeon' %ansi(white)(Sex change)}}
+#TRIGGER {'Faerwon, grant your favor!'} {#sub {'Faerwon, grant your favor!' %ansi(white)(Bless armament)}}
+#TRIGGER {'Renew our strength'} {#sub {'Renew our strength' %ansi(white)(Laying on hands)}}
+#TRIGGER {'rtsstr uurthg'} {#sub {'rtsstr uurthg' %ansi(white)(Curse of ogre)}}
+#TRIGGER {'yugfzhrrr suuck suuuuuuck suuuuuuuuuuck'} {#sub {'yugfzhrrr suuck suuuuuuck suuuuuuuuuuck' %ansi(white)(Energy drain)}}
+#TRIGGER {'vaka vanha vainamoinen'} {#sub {'vaka vanha vainamoinen' %ansi(white)(Entropy)}}
+#TRIGGER {'nitin uurthg'} {#sub {'nitin uurthg' %ansi(white)(Feeblemind)}}
+#TRIGGER {'imprickening zang gah'} {#sub {'imprickening zang gah' %ansi(white)(Imprisonment)}}
+#TRIGGER {'ddt ddt ddt is good for you and me!'} {#sub {'ddt ddt ddt is good for you and me!' %ansi(white)(Poison cloud)}}
+#TRIGGER {'May this become the blood of the Spider queen'} {#sub {'May this become the blood of the Spider queen' %ansi(white)(Venom blade)}}
+#TRIGGER {'tamakan natelo assim'} {#sub {'tamakan natelo assim' %ansi(white)(All-seeing eye)}}
+#TRIGGER {'Khizanth Arachnidus Walkitus'} {#sub {'Khizanth Arachnidus Walkitus' %ansi(white)(Spider walk)}}
+#TRIGGER {'Khizanth Arachnidus Hatredus'} {#sub {'Khizanth Arachnidus Hatredus' %ansi(white)(Spider wrath)}}
+#TRIGGER {'arachnid infernalicus arachnoidus demonicus'} {#sub {'arachnid infernalicus arachnoidus demonicus' %ansi(white)(Spider demon conjuration)}}
+#TRIGGER {'Khizanth Arachnidus Vitalis'} {#sub {'Khizanth Arachnidus Vitalis' %ansi(white)(Hunger of the spider)}}
+#TRIGGER {'Khizanth Arachnidus Diametricus'} {#sub {'Khizanth Arachnidus Diametricus' %ansi(white)(Spider touch)}}
+#TRIGGER {'Khirsah Zokant Arachnidus'} {#sub {'Khirsah Zokant Arachnidus' %ansi(white)(Spider demon inquiry)}}
+#TRIGGER {'dsaflk aslfoir'} {#sub {'dsaflk aslfoir' %ansi(white)(Blade of fire)}}
+#TRIGGER {'Polo Polomii'} {#sub {'Polo Polomii' %ansi(white)(Flame fists)}}
+#TRIGGER {'Sanctum circum'} {#sub {'Sanctum circum' %ansi(white)(Holy bolt)}}
+#TRIGGER {'Sanctum disqum'} {#sub {'Sanctum disqum' %ansi(white)(Dispel undead)}}
+#TRIGGER {'infernalicus nexus arachnid rex'} {#sub {'infernalicus domus arachnid rex' %ansi(white)(Spider demon channeling)}}
+#TRIGGER {'jammpa humppa ryydy mopsi'} {#sub {'jammpa humppa ryydy mopsi' %ansi(white)(Flip)}}
+#TRIGGER {'taikoja ma inhoan'} {#sub {'taikoja ma inhoan' %ansi(white)(Anti magic field)}}
+#TRIGGER {'AeaH~*h~*~*~*Gdg'} {#sub {'AeaH*h***Gdg' %ansi(white)(Con fioco)}}
+#TRIGGER {'Sanctus inxze'} {#sub {'Sanctus inxze' %ansi(white)(Holy hand)}}
+#TRIGGER {'Ez Div'} {#sub {'Ez Div' %ansi(white)(Dispel evil)}}
+#TRIGGER {'vaka tosi vanha vainamoinen'} {#sub {'vaka tosi vanha vainamoinen' %ansi(white)(Area entropy)}}
+#TRIGGER {'fooharribah inaminos cantor'} {#sub {'fooharribah inaminos cantor' %ansi(white)(Armour of aether)}}
+#TRIGGER {'BBBBOOOOOO!!!!'} {#sub {'BBBBOOOOOO!!!!' %ansi(white)(Terror)}}
+#TRIGGER {'Thar! Rauko! Mor! Ris-Rim! Fuin-Heru! GOR! Gurthgwath!n'} {#sub {'Thar! Rauko! Mor! Ris-Rim! Fuin-Heru! GOR! Gurthgwath!n' %ansi(white)(Noituloves deathlore)}}
+#TRIGGER {'hnnn....Urrgggg.....RRAAHH!!!'} {#sub {'hnnn....Urrgggg.....RRAAHH!!!' %ansi(white)(Energy aura)}}
+#TRIGGER {'hhhnnnnnrrrrraaahhh!!'} {#sub {'hhhnnnnnrrrrraaahhh!!' %ansi(white)(Energy aura)}}
+#TRIGGER {'RRRRAAAAAHHRRRRGGGGGGHHH!!!!!'} {#sub {'RRRRAAAAAHHRRRRGGGGGGHHH!!!!!' %ansi(white)(Energy aura)}}
+#TRIGGER {'shar ryo den...Haa!'} {#sub {'shar ryo den...Haa!' %ansi(white)(Channelball)}}
+#TRIGGER {'Gawd DAMN IT!'} {#sub {'Gawd DAMN IT!' %ansi(white)(Damn armament)}}
+#TRIGGER {'tsaibaa'} {#sub {'tsaibaa' %ansi(white)(Channelbolt)}}
+#TRIGGER {'enfuego delyo'} {#sub {'enfuego delyo' %ansi(white)(Replenish ally)}}
+#TRIGGER {'Haii!'} {#sub {'Haii!' %ansi(white)(Tiger claw)}}
+#TRIGGER {'riljya'} {#sub {'riljya' %ansi(white)(Personal force field)}}
+#TRIGGER {'dIsCHoRD'} {#sub {'dIsCHoRD' %ansi(white)(Noituloves dischord)}}
+#TRIGGER {'ja nyt kenka kepposasti nousee'} {#sub {'ja nyt kenka kepposasti nousee' %ansi(white)(Field of light)}}
+#TRIGGER {'vas ful'} {#sub {'vas ful' %ansi(white)(Greater light)}}
+#TRIGGER {'kewa dan dol rae hout'} {#sub {'kewa dan dol rae hout' %ansi(white)(Degenerate person)}}
+#TRIGGER {'shamarubu incixtes delfo'} {#sub {'shamarubu incixtes delfo' %ansi(white)(Repulsor aura)}}
+#TRIGGER {'nbarrimon zfettix roi'} {#sub {'nbarrimon zfettix roi' %ansi(white)(Frost shield)}}
+#TRIGGER {~'~!~( ~*~)~'} {#sub {(Earth Blood)}}
+#TRIGGER {'Rev 'liz'} {#sub {'Rev 'liz' %ansi(white)(Holy wind)}}
+#TRIGGER {'noccon uurthg'} {#sub {'noccon uurthg' %ansi(white)(Disease)}}
+#TRIGGER {'ahieppa weaapytama nyttemmin'} {#sub {'ahieppa weaapytama nyttemmin' %ansi(white)(Summon blade)}}
+#TRIGGER {'phylli phylli'} {#sub {'phylli phylli' %ansi(white)(Prepare flask)}}
+#TRIGGER {'Ourglazz Schmourglazz'} {#sub {'Ourglazz Schmourglazz' %ansi(white)(Resist entropy)}}
+#TRIGGER {(%w) ([trace|traces]) fiery red runes on ([your|his|her|its]) gem ~'~& ~^~'} {#sub {%1 %2 fiery red runes on %3 gem '& ^' %ansi(white)(Gem fire)}}
+#TRIGGER {'all for one, gather around me'} {#sub {'all for one, gather around me' %ansi(white)(Psionic phalanx)}}
+#TRIGGER {'diir mieelis sxil miarr mieelin'} {#sub {'diir mieelis sxil miarr mieelin' %ansi(white)(Mindseize)}}
+#TRIGGER {'judicandus puorgo ignius'} {#sub {'judicandus puorgo ignius' %ansi(white)(Minor party heal)}}
+#TRIGGER {'Siwa on selvaa saastoa.'} {#sub {'Siwa on selvaa saastoa.' %ansi(white)(Restore)}}
+#TRIGGER {'grhagrhagrhagrah gra gra Hyaa!'} {#sub {'grhagrhagrhagrah gra gra Hyaa!' %ansi(white)(Channelburn)}}
+#TRIGGER {'enfuego delcosa'} {#sub {'enfuego delcosa' %ansi(white)(Drain item)}}
+#TRIGGER {'huppa huppa tiki tiki'} {#sub {'huppa huppa tiki tiki' %ansi(white)(Flame shield)}}
+#TRIGGER {'ahne paskianen olen ma kun taikuutta nahda tahdon'} {#sub {'ahne paskianen olen ma kun taikuutta nahda tahdon' %ansi(white)(See magic)}}
+#TRIGGER {'enfuegome delterra'} {#sub {'enfuegome delterra' %ansi(white)(Drain room)}}
+#TRIGGER {'transformaticus minimus'} {#sub {'transformaticus minimus' %ansi(white)(Feather weight)}}
+#TRIGGER {'ghht zur sanc'} {#sub {'ghht zur sanc' %ansi(white)(Suffocation)}}
+#TRIGGER {'Satan down'} {#sub {'Satan down' %ansi(white)(Banish demon)}}
+#TRIGGER {'Ez' div'} {#sub {'Ez' div' %ansi(white)(Dispel evil)}}
+#TRIGGER {'grinurb sdan imflagrum'} {#sub {'grinurb sdan imflagrum' %ansi(white)(Channelspray)}}
+#TRIGGER {'hfizz hfizz nglurglptz'} {#sub {'hfizz hfizz nglurglptz' %ansi(white)(Acid shield)}}
+#TRIGGER {'khozak'} {#sub {'khozak' %ansi(white)(Word of attrition)}}
+#TRIGGER {'nyiaha llaimay exchekes ployp'} {#sub {'nyiaha llaimay exchekes ployp' %ansi(white)(Shield of detoxification)}}
+#TRIGGER {'null, nill, noll, nutin'} {#sub {'null, nill, noll, nutin' %ansi(white)(Neutralize field)}}
+#TRIGGER {'ruotsalainen ensiapu'} {#sub {'ruotsalainen ensiapu' %ansi(white)(Half harm)}}
+#TRIGGER {'englobo globo mc'pop'} {#sub {'englobo globo mc'pop' %ansi(white)(Aura of wind)}}
+#TRIGGER {'ohm'} {#sub {'ohm' %ansi(white)(Lightning shield)}}
+#TRIGGER {'ex'domus naz'} {#sub {'ex'domus naz' %ansi(white)(Flames of righteousness)}}
+#TRIGGER {'enfuego delmigo'} {#sub {'enfuego delmigo' %ansi(white)(Drain ally)}}
+#TRIGGER {'zicks laai qluu'} {#sub {'zicks laai qluu' %ansi(white)(Resist dispel)}}
+#TRIGGER {'lecaps meeb nonnock'} {#sub {'lecaps meeb nonnock' %ansi(white)(Channelray)}}
+#TRIGGER {'incantar enfeugo aggriva'} {#sub {'incantar enfeugo aggriva' %ansi(white)(Energy vortex)}}
+#TRIGGER {'oli isa-sammakko, aiti-sammakko ja PIKKU-SAMMAKKO!!'} {#sub {'oli isa-sammakko, aiti-sammakko ja PIKKU-SAMMAKKO!!' %ansi(white)(Frog Curse)}}
+#TRIGGER {'Impuqueto es Bien'} {#sub {'Impuqueto es Bien' %ansi(white)(Lessen Poison)}}
+#TRIGGER {'se on sarki nyt'} {#sub {'se on sarki nyt' %ansi(white)(Dest Armour)}}
+#TRIGGER {'rikki ja poikki'} {#sub {'rikki ja poikki' %ansi(white)(Dest Weapon)}}
+#TRIGGER {'voi hellapoliisin kevatnuija'} {#sub {'voi hellapoliisin kevatnuija' %ansi(white)(Suppress Magic)}}
+#TRIGGER {'nilaehz temnahecne neg'} {#sub {'nilaehz temnahecne' %ansi(white)(Curse of Tarmalen)}}
+#TRIGGER {'sakenoivasta voimasta'} {#sub {'sakenoivasta voimasta' %ansi(white)(Haste)}}
+#TRIGGER {'aalltyyuii regonza zirii'} {#sub {'aalltyyuii regonza zirii' %ansi(white)(Clairvoyance)}}
+#TRIGGER {'pzzzar paf'} {#sub {'pzzzar paf' %ansi(white)(Half Heal)}}
+#TRIGGER {'huumeet miehen tiella pitaa'} {#sub {'huumeet miehen tiella pitaa' %ansi(white)(Hallucination)}}
+#TRIGGER {'sulta taiat pois, mulle hyva mieli taikadaikaduu'} {#sub {'sulta taiat pois, mulle hyva mieli taikadaikaduu' %ansi(white)(Forget)}}
+#TRIGGER {'sahanpurua'} {#sub {'sahanpurua' %ansi(white)(Disintegrate)}}
+#TRIGGER {'thoiiiiiisss huuuiahashn'} {#sub {'thoiiiiiisss huuuiahashn' %ansi(white)(Force Shield)}}
+#TRIGGER {'etsi poika pippuria'} {#sub {'etsi poika pippuria' %ansi(white)(Party Banish)}}
+#TRIGGER {'bii thee dzname uv tii blaaaz drazon'} {#sub {'bii thee dzname uv tii blaaaz drazon' %ansi(white)(Resist Disintegrate)}}
+#TRIGGER {'isar avatap patyan'} {#sub {'isar avatap patyan' %ansi(white)(Enhance Vision)}}
+#TRIGGER {'bloozdy etherum errazam zunk'} {#sub {'bloozdy etherum errazam zunk' %ansi(white)(Create Air Armour)}}
+#TRIGGER {'nullum driiiks umbah mana'} {#sub {'nullum driiiks umbah mana' %ansi(white)(Mana Shield)}}
+#TRIGGER {^(%w) (*) 'ztonez des deckers'} {#var conjprot force;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'hot hot not zeis daimons'} {#var conjprot fire;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'skaki barictos yetz fiil'} {#var conjprot cold;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'morri nam pantoloosa'} {#var conjprot poison;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'meke tul magic'} {#var conjprot magic;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'sulphiraidzik hydrochloodriz gidz zuf'} {#var conjprot acid;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'kablaaaammmmm bliitz zundfer'} {#var conjprot electric;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'qor monoliftus'} {#var conjprot asphx;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'toughen da mind reeez un biis'} {#var conjprot psi;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'diiiiuuunz aaanziz'} {#var conjprot disp;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'ziiiuuuuns wiz'} {#var conjprot blur;#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '..... .... ... ..  .    .!'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'demoni on pomoni'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'harnaxan temnahecne'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'tonnikalaa'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '~^ ~!~)'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'nilaehz arzocupne'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '~% ~! ~('} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '~% ~!~^'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'good is dumb'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'nsiiznau'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'Grant your worshipper your protection'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'Jeeeeeeeeeeeesuuuuuuuus'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '~$~%~&~@ ~#~*~%~@~*~@~# ~$~&~*~@~#'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'nilaehz temnahecne'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {'hypin pompin luokses juoksen'} {#sub {'hypin pompin luokses juoksen' %ansi(white)(Relocate)}}
+#TRIGGER {'~& ~^'} {#sub {'& ^' %ansi(white)(Hoar frost)}} "" {disable}
+#TRIGGER {^(%w) {sings|sing}: 'War is TOTAL massacre, sport the war, war SUPPOORT!!!'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {'enfuego delvivendo'} {#sub {'enfuego delvivendo' %ansi(white)(Drain enemy)}}
+#TRIGGER {^(%w) (*) 'fooharribah inaminos cantor'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'shamarubu incixtes delfo'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'nbarrimon zfettix roi'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) '~!~( ~*~)'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'nyiaha llaimay exchekes ployp'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'all for one, gather around me'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'huppa huppa tiki tiki'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'hfizz hfizz nglurglptz'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {^(%w) (*) 'englobo globo mc'pop'} {#IF ("%1"="You") {#var caster Me} {#var caster %1}}
+#TRIGGER {'zot zur semen gnatlnamauch'} {#sub {'zot zur semen gnatlnamauch' %ansi(white)(Chain Lightning)}}
+#TRIGGER {'Akronym Htouy, Hokrune Arafax'} {#sub {'Akronym Htouy, Hokrune Arafax' %ansi(white)(Youth)}}
+#TRIGGER {'mesmr pulrl metism'} {#sub {'mesmr pulrl metism' %ansi(white)(Acquisition)}}
+#TRIGGER {zoot zoot zoot} {#sub {zoot zoot zoot %ansi(white)(Enhanced Vitality)}}
+#TRIGGER {'Myh myh!'} {#sub {'Myh myh!' %ansi(white)(Lift of Load)}}
+#TRIGGER {'xafe uurthq'} {#sub {'xafe uurthq' %ansi(white)(Relocate)}}
+#TRIGGER {'prtolala offf pwerrrr'} {#sub {'prtolala offf pwerrrr' %ansi(white)(Dimension Door)}}
+#TRIGGER {'roope ankka rulettaa'} {#sub {'roope ankka rulettaa' %ansi(white)(Create Money)}}
+#TRIGGER {'vole love velo levo'} {#sub {'vole love velo levo' %ansi(white)(Word of Recall)}}
+#TRIGGER {'fah relep krlnpth'} {#sub {'fah relep krlnpth' %ansi(white)(Immolate)}}
+#TRIGGER {'infernalicus thanatos arachnidos'} {#SUB {'infernalicus thanatos arachnidos' %ansi(white)(Spider banish/web)}}
+#TRIGGER {'zeriqum'} {#SUB {'zeriqum' %ansi(white)(Celestial Heaven)}}
+#TRIGGER {'Kha Kjelom Lydra Pza!'} {#SUB {'Kha Kjelom Lydra Pza!' %ansi(white)(summon)}}
+#TRIGGER {'etheria aquariq (%w)'} {#sub {'etheria aquari %1' %ansi(white)(Goto Ship ~@ %1)}}
+#TRIGGER {'infernalicus domus arachnid rex magnos'} {#SUB {'infernalicus domus arachnid rex magnos' %ansi(white)(Spider demon mass sacrifice)}}
+#TRIGGER {'juustoa ja pullaa, sita mun maha halajaa'} {#SUB {'juustoa ja pullaa, sita mun maha halajaa' %ansi(white)(Create food)}}
+#TRIGGER {'Khizanth Arachnidus Satisfusmus'} {#SUB {'Khizanth Arachnidus Satisfusmus' %ansi(white)(Prayer to the spider queen)}}
+#TRIGGER {'infernalicus conjuratis arachnidos'} {#SUB {'infernalicus conjuratis arachnidos' %ansi(white)(Spider Servant)}}
+#TRIGGER {'infernalicus claravonticus arachnidos'} {#SUB {'infernalicus claravonticus arachnidos' %ansi(white)(Spider Gaze)}}
+#TRIGGER {'infernalicus intellegus arachnidos'} {#SUB {'infernalicus intellegus arachnidos' %ansi(white)(Spider Eye)}}
+#TRIGGER {'Khizanth Arachnidus Iracundus'} {#SUB {'Khizanth Arachnidus Iracundus' %ansi(white)(Spider Wrath)}}
+#TRIGGER {'Blaarh ARGHAGHAHAHA URAAAH BELARGH!'} {#SUB {'Blaarh ARGHAGHAHAHA URAAAH BELARGH!' %ansi(white)(reanimation)}}
+#TRIGGER {'trpp dda prtolala offf pwerrrr'} {#sub {'trpp dda prtolala offf pwerrrr' %ansi(white)(Rune of Warding)}}
+#TRIGGER {'taxonimus zoologica whaddahellizzat'} {#SUB {'taxonimus zoologica whaddahellizzat' %ansi(white)(Detect Race)}}
+#CLASS 0
+#CLASS {party}
+#ALIAS pj {party join;wimpy off;#VAR INPARTY 1}
+#ALIAS plv {party leave;#VAR INPARTY 0}
+#TRIGGER {^Patrick points his finger at (%w)} {party say --- %1 BANISHED ---}
+#TRIGGER {^(%w) grins as {his|her|its}} {#CW bold,green}
+#TRIGGER {^(%w) leaves in a flash of light.} {party say - %1 - GOT TOSSED.}
+#TRIGGER {{~[report~]:|~(report~):|~{report~}:}} {#cw bold,green}
+#REGEX {(?:ld)(?:  | |)(\d+)\((?: |)(\d+)\)} {#cw 2710}
+#REGEX {(?:stun|rest|mbr|ldr|form|fol)\s+(\d+)\((?: |)(\d+)\)\s+(\d+)\((?: |)(\d+)\)\s+(\d+)\((?: |)(\d+)\)} {#IF (%eval( (%1.0/%2.0)*100.0)>0) {#PCOL bold,red %x1;#PCOL bold,red %x2};#IF (%eval( (%1.0/%2.0)*100.0)>33) {#PCOL bold,yellow %x1;#PCOL bold,yellow %x2};#IF (%eval( (%1.0/%2.0)*100.0)>66) {#PCOL bold,green %x1;#PCOL bold,green %x2};#IF (%eval( (%3.0/%4.0)*100.0)>0) {#PCOL bold,red %x3;#PCOL bold,red %x4};#IF (%eval( (%3.0/%4.0)*100.0)>33) {#PCOL bold,yellow %x3;#PCOL bold,yellow %x4};#IF (%eval( (%3.0/%4.0)*100.0)>66) {#PCOL bold,green %x3;#PCOL bold,green %x4};#IF (%eval( (%5.0/%6.0)*100.0)>0) {#PCOL bold,red %x5;#PCOL bold,red %x6};#IF (%eval( (%5.0/%6.0)*100.0)>33) {#PCOL bold,yellow %x5;#PCOL bold,yellow %x6};#IF (%eval( (%5.0/%6.0)*100.0)>66) {#PCOL bold,green %x5;#PCOL bold,green %x6}}
+#REGEX {(?:stun|rest|mbr|ldr|form|fol)\s+(\d+)\((?: |)(\d+)\)\s+(\d+)\(\s+(\d+)\)\s+(\d+)\((?: |)(\d+)\)} {#IF (%eval( (%1.0/%2.0)*100.0)>0) {#PCOL bold,red %x1;#PCOL bold,red %x2};#IF (%eval( (%1.0/%2.0)*100.0)>33) {#PCOL bold,yellow %x1;#PCOL bold,yellow %x2};#IF (%eval( (%1.0/%2.0)*100.0)>66) {#PCOL bold,green %x1;#PCOL bold,green %x2};#IF (%eval( (%3.0/%4.0)*100.0)>0) {#PCOL bold,red %x3;#PCOL bold,red %x4};#IF (%eval( (%3.0/%4.0)*100.0)>33) {#PCOL bold,yellow %x3;#PCOL bold,yellow %x4};#IF (%eval( (%3.0/%4.0)*100.0)>66) {#PCOL bold,green %x3;#PCOL bold,green %x4};#IF (%eval( (%5.0/%6.0)*100.0)>0) {#PCOL bold,red %x5;#PCOL bold,red %x6};#IF (%eval( (%5.0/%6.0)*100.0)>33) {#PCOL bold,yellow %x5;#PCOL bold,yellow %x6};#IF (%eval( (%5.0/%6.0)*100.0)>66) {#PCOL bold,green %x5;#PCOL bold,green %x6}}
+#TRIGGER {(%w) %s ldr} {#VAR pldr %1;#cw bold,cyan}
+#TRIGGER {^This monster looks somehow familiar...} {#sub {This monster looks somehow familiar... %ansi(12)(RAPERPROT ALERT!!!)};party report I HAVE RAPE PROT}
+#TRIGGER {^([a-z,' ','~-','~'',',','(',')']) acquires a ([a-z,' ','~-','~'',',','(',')','¤','~<','~>']) from you!} {party report %1 acquired %2 from me!}
+#TRIGGER {^([a-z,' ','~-','~'',',','(',')']) acquires ([a-z,' ','~-','~'',',','(',')','¤','~<','~>']) from ([a-z,' ','~-','~'',',','(',')']).} {party report %1 acquired %2 from %3!}
+#TRIGGER {^You are now targetting ([a-z,' ','~-','~'',','])} {party report Targeting: %1}
+#TRIGGER {^(%w) blips at you.} {#if (%ismember( HW, @prots)) {formattime hwtime;#var random_protstimed %additem( HW, @random_protstimed);#var protstimed %additem( HW, @protstimed)};#if (%ismember( Us, @prots)) {formattime unstuntime;#var tarm_protstimed %additem( Us, @tarm_protstimed);#var protstimed %additem( Us, @protstimed)};#if (%ismember( Flex, @prots)) {formattime Flextime;#var druid_protstimed %additem( Flex, @druid_protstimed);#var protstimed %additem( Flex, @protstimed)};#if (%ismember( PfE, @prots)) {formattime pfetime;#var nun_protstimed %additem( PfE, @nun_protstimed);#var protstimed %additem( PfE, @protstimed)};#if (%ismember( FAB, @prots)) {formattime forcetime;#var conju_protstimed %additem( FAB, @conju_protstimed);#var protstimed %additem( FAB, @protstimed)};#if (%ismember( Fire, @prots)) {formattime firetime;#var conju_protstimed %additem( Fire, @conju_protstimed);#var protstimed %additem( Fire, @protstimed)};#if (%ismember( Elec, @prots)) {formattime electrictime;#var conju_protstimed %additem( Elec, @conju_protstimed);#var protstimed %additem( Elec, @protstimed)};#if (%ismember( Psi, @prots)) {formattime psitime;#var conju_protstimed %additem( Psi, @conju_protstimed);#var protstimed %additem( Psi, @protstimed)};#if (%ismember( Cold, @prots)) {formattime coldtime;#var conju_protstimed %additem( Cold, @conju_protstimed);#var protstimed %additem( Cold, @protstimed)};#if (%ismember( Acid, @prots)) {formattime acidtime;#var conju_protstimed %additem( Acid, @conju_protstimed);#var protstimed %additem( Acid, @protstimed)};#if (%ismember( Asphyx, @prots)) {formattime asphxtime;#var conju_protstimed %additem( Asphyx, @conju_protstimed);#var protstimed %additem( Asphyx, @protstimed)};#if (%ismember( Poison, @prots)) {formattime poisontime;#var conju_protstimed %additem( Poison, @conju_protstimed);#var protstimed %additem( Poison, @protstimed)};#if (%ismember( Magic, @prots)) {formattime magictime;#var conju_protstimed %additem( Magic, @conju_protstimed);#var protstimed %additem( Magic, @protstimed)};#if (%ismember( G-Acid~(S~), @prots)) {formattime gacid;#var conju_protstimed %additem( G-Acid~(S~), @conju_protstimed);#var protstimed %additem( G-Acid~(S~), @protstimed)};#if (%ismember( G-Asphyx~(S~), @prots)) {formattime gasphyx;#var conju_protstimed %additem( G-Asphyx~(S~), @conju_protstimed);#var protstimed %additem( G-Asphyx~(S~), @protstimed)};#if (%ismember( G-Fire~(S~), @prots)) {formattime gfire;#var conju_protstimed %additem( G-Fire~(S~), @conju_protstimed);#var protstimed %additem( G-Fire~(S~), @protstimed)};#if (%ismember( AOA~(S~), @prots)) {formattime aoatime;#var conju_protstimed %additem( AOA~(S~), @conju_protstimed);#var protstimed %additem( AOA~(S~), @protstimed)};#if (%ismember( G-Magic~(S~), @prots)) {formattime gmagic;#var conju_protstimed %additem( G-Magic~(S~), @conju_protstimed);#var protstimed %additem( G-Magic~(S~), @protstimed)};#if (%ismember( G-Cold~(S~), @prots)) {formattime gcold;#var conju_protstimed %additem( G-Cold~(S~), @conju_protstimed);#var protstimed %additem( G-Cold~(S~), @protstimed)};#if (%ismember( G-Psi~(S~), @prots)) {formattime gpsi;#var conju_protstimed %additem( G-Psi~(S~), @conju_protstimed);#var protstimed %additem( G-Psi~(S~), @protstimed)};#if (%ismember( G-Elec~(S~), @prots)) {formattime gelec;#var conju_protstimed %additem( G-Elec~(S~), @conju_protstimed);#var protstimed %additem( G-Elec~(S~), @protstimed)};#if (%ismember( G-Poison~(S~), @prots)) {formattime gpoison;#var conju_protstimed %additem( G-Poison~(S~), @conju_protstimed);#var protstimed %additem( G-Poison~(S~), @protstimed)};#if (%ismember( AOA, @prots)) {formattime aoatime;#var conju_protstimed %additem( AOA, @conju_protstimed);#var protstimed %additem( AOA, @protstimed)};#if (%ismember( G-Fire, @prots)) {formattime gfire;#var conju_protstimed %additem( G-Fire, @conju_protstimed);#var protstimed %additem( G-Fire, @protstimed)};#if (%ismember( G-Acid, @prots)) {formattime gacid;#var conju_protstimed %additem( G-Acid, @conju_protstimed);#var protstimed %additem( G-Acid, @protstimed)};#if (%ismember( G-Magic, @prots)) {formattime gmagic;#var conju_protstimed %additem( G-Magic, @conju_protstimed);#var protstimed %additem( G-Magic, @protstimed)};#if (%ismember( G-Cold, @prots)) {formattime gcold;#var conju_protstimed %additem( G-Cold, @conju_protstimed);#var protstimed %additem( G-Cold, @protstimed)};#if (%ismember( G-Psi, @prots)) {formattime gpsi;#var conju_protstimed %additem( G-Psi, @conju_protstimed);#var protstimed %additem( G-Psi, @protstimed)};#if (%ismember( G-Poison, @prots)) {formattime gpoison;#var conju_protstimed %additem( G-Poison, @conju_protstimed);#var protstimed %additem( G-Poison, @protstimed)};#if (%ismember( G-Elec, @prots)) {formattime gelec;#var conju_protstimed %additem( G-Elec, @conju_protstimed);#var protstimed %additem( G-Elec, @protstimed)};#if (%ismember( G-Asphyx, @prots)) {formattime gasphyx;#var conju_protstimed %additem( G-Asphyx, @conju_protstimed);#var protstimed %additem( G-Asphyx, @protstimed)};#if (%ismember( Blur, @prots)) {formattime blurtime;#var conju_protstimed %additem( Blur, @conju_protstimed);#var protstimed %additem( Blur, @protstimed)};#if (%ismember( Disp, @prots)) {formattime disptime;#var conju_protstimed %additem( Disp, @conju_protstimed);#var protstimed %additem( Disp, @protstimed)};#if (%ismember( SoP, @prots)) {formattime Soptime;#var conju_protstimed %additem( SoP, @conju_protstimed);#var protstimed %additem( SoP, @protstimed)};#if (%ismember( QS, @prots)) {formattime qstime;#var conju_protstimed %additem( QS, @conju_protstimed);#var protstimed %additem( QS, @protstimed)};#if (%ismember( IW, @prots)) {formattime iwilltime;#var conju_protstimed %additem( IW, @conju_protstimed);#var protstimed %additem( IW, @protstimed)};#if (%ismember( R.Ent, @prots)) {formattime RessEnttime;#var conju_protstimed %additem( R.Ent, @conju_protstimed);#var protstimed %additem( R.Ent, @protstimed)};#if (%ismember( Regen, @prots)) {formattime regentime;#var druid_protstimed %additem( Regen, @druid_protstimed);#var protstimed %additem( Regen, @protstimed)};#if (%ismember( Eb, @prots)) {formattime ebtime;#var druid_protstimed %additem( Eb, @druid_protstimed);#var protstimed %additem( Eb, @protstimed)};#if (%ismember( Epow, @prots)) {formattime epowertime;#var druid_protstimed %additem( Epow, @druid_protstimed);#var protstimed %additem( Epow, @protstimed)};#if (%ismember( Vman, @prots)) {formattime vinetime;#var druid_protstimed %additem( Vman, @druid_protstimed);#var protstimed %additem( Vman, @protstimed)};#if (%ismember( Eskin, @prots)) {formattime eskintime;#var druid_protstimed %additem( Eskin, @druid_protstimed);#var protstimed %additem( Eskin, @protstimed)};#if (%ismember( Embr, @prots)) {formattime emtime;#var bard_protstimed %additem( Embr, @bard_protstimed);#var protstimed %additem( Embr, @protstimed)};#if (%ismember( War, @prots)) {formattime wartime;#var bard_protstimed %additem( War, @bard_protstimed);#var protstimed %additem( War, @protstimed)};#if (%ismember( Luck, @prots)) {formattime archfav;#var bard_protstimed %additem( Luck, @bard_protstimed);#var protstimed %additem( Luck, @protstimed)};#if (%ismember( Unp, @prots)) {formattime unpaintime;#var tarm_protstimed %additem( Unp, @tarm_protstimed);#var protstimed %additem( Unp, @protstimed)};#if (%ismember( E.Vital, @prots)) {formattime e.vitaltime;#var tarm_protstimed %additem( E.Vital, @tarm_protstimed);#var protstimed %additem( E.Vital, @protstimed)};#if (%ismember( LfLnk~(@lifelinked~), @prots)) {formattime lifelinktime;#var tarm_protstimed %additem( LfLnk~(@lifelinked~), @tarm_protstimed);#var protstimed %additem( LfLnk~(@lifelinked~), @protstimed)};#IF (%ismember( BoT, @prots)) {formattime bottime;#var tarm_protstimed %additem( BoT, @tarm_protstimed);#var protstimed %additem( BoT, @protstimed)};#if (%ismember( HvnlProt, @prots)) {formattime HvnlProt;#var nun_protstimed %additem( HvnlProt, @nun_protstimed);#var protstimed %additem( HvnlProt, @protstimed)};#if (%ismember( ManShld, @prots)) {formattime manashldtime;#var nun_protstimed %additem( ManShld, @nun_protstimed);#var protstimed %additem( ManShld, @protstimed)};#if (%ismember( SoulShld, @prots)) {formattime SoulShld;#var nun_protstimed %additem( SoulShld, @nun_protstimed);#var protstimed %additem( SoulShld, @protstimed)};#if (%ismember( PfG, @prots)) {formattime pfgtime;#var priest_protstimed %additem( PfG, @priest_protstimed);#var protstimed %additem( PfG, @protstimed)};#if (%ismember( Aura, @prots)) {formattime aohtime;#var priest_protstimed %additem( Aura, @priest_protstimed);#var protstimed %additem( Aura, @protstimed)};#if (%ismember( Fsh, @prots)) {formattime fstime;#var psi_protstimed %additem( Fsh, @psi_protstimed);#var protstimed %additem( Fsh, @protstimed)};#if (%ismember( Fsh~(S~), @prots)) {formattime fstime;#var psi_protstimed %additem( Fsh~(S~), @psi_protstimed);#var protstimed %additem( Fsh~(S~), @protstimed)};#if (%ismember( PsiShld, @prots)) {formattime pshtime;#var psi_protstimed %additem( PsiShld, @psi_protstimed);#var protstimed %additem( PsiShld, @protstimed)};#if (%ismember( Trance, @prots)) {formattime trancetime;#var psi_protstimed %additem( Trance, @psi_protstimed);#var protstimed %additem( Trance, @protstimed)};#if (%ismember( E.Aware, @prots)) {formattime eawaretime;#var psi_protstimed %additem( E.Aware, @psi_protstimed);#var protstimed %additem( E.Aware, @protstimed)};#if (%ismember( SoF, @prots)) {formattime shieldoffaithtime;#var templar_protstimed %additem( SoF, @templar_protstimed);#var protstimed %additem( SoF, @protstimed)};#if (%ismember( PBS~(@pbsto~), @prots)) {formattime pbstime;#var templar_protstimed %additem( PBS~(@pbsto~), @templar_protstimed);#var protstimed %additem( PBS~(@pbsto~), @protstimed)};#if (%ismember( FF, @prots)) {formattime FFtime;#var tiger_protstimed %additem( FF, @tiger_protstimed);#var protstimed %additem( FF, @protstimed)};#if (%ismember( Rage, @prots)) {formattime enragetime;#var barb_protstimed %additem( Rage, @barb_protstimed);#var protstimed %additem( Rage, @protstimed)};#if (%ismember( PThresh, @prots)) {formattime threshtime;#var barb_protstimed %additem( PThresh, @barb_protstimed);#var protstimed %additem( PThresh, @protstimed)};#if (%ismember( DRage, @prots)) {formattime dragetime;#var barb_protstimed %additem( DRage, @barb_protstimed);#var protstimed %additem( DRage, @protstimed)};#IF (%ismember( GoD, @prots)) {formattime GoDtime;#var reaver_protstimed %additem( GoD, @reaver_protstimed);#var protstimed %additem( GoD, @protstimed)};#IF (%ismember( SDrain, @prots)) {formattime SDraintime;#var reaver_protstimed %additem( SDrain, @reaver_protstimed);#var protstimed %additem( SDrain, @protstimed)};#if (%ismember( SWalk, @prots)) {formattime walktime;#var spider_protstimed %additem( SWalk, @spider_protstimed);#var protstimed %additem( SWalk, @protstimed)};#IF (%ismember( LoL, @prots)) {formattime loltime;#var merchant_protstimed %additem( LoL, @merchant_protstimed);#var protstimed %additem( LoL, @protstimed)};#if (%ismember( WW, @prots)) {formattime WWtime;#var random_protstimed %additem( WW, @random_protstimed);#var protstimed %additem( WW, @protstimed)};#if (%ismember( Float, @prots)) {formattime Floattime;#var random_protstimed %additem( Float, @random_protstimed);#var protstimed %additem( Float, @protstimed)};#if (%ismember( Infra, @prots)) {formattime infratime;#var random_protstimed %additem( Infra, @random_protstimed);#var protstimed %additem( Infra, @protstimed)};#if (%ismember( Invis, @prots)) {formattime invistime;#var random_protstimed %additem( Invis, @random_protstimed);#var protstimed %additem( Invis, @protstimed)};#if (%ismember( Touch, @prots)) {formattime Touchtime;#var curse_protstimed %additem( Touch, @curse_protstimed);#var protstimed %additem( Touch, @protstimed)};#if (%ismember( MSup, @prots)) {formattime MSuptime;#var curse_protstimed %additem( MSup, @curse_protstimed);#var protstimed %additem( MSup, @protstimed)};#if (%ismember( Forget, @prots)) {formattime forgettime;#var curse_protstimed %additem( Forget, @curse_protstimed);#var protstimed %additem( Forget, @protstimed)};#IF (%ismember( %1, @pmembers)) {#GAGON;#if (@protstimed<>"") {emoteto %1 Conj: ~(@{conju_protstimed}~) Druid: ~(@{druid_protstimed}~) Bard: ~(@{bard_protstimed}~) Tarm: ~(@{tarm_protstimed}~) Nun: ~(@{nun_protstimed}~) Priest: ~(@{priest_protstimed}~) Psi: ~(@{psi_protstimed}~) Templar: ~(@{templar_protstimed}~) Tiger: ~(@{tiger_protstimed}~) Reaver: ~(@{reaver_protstimed}~) Barb: ~(@{barb_protstimed}~) Merchant: ~(@{merchant_protstimed}~) Random: ~(@{random_protstimed}~) Curse: ~(@{curse_protstimed}~)} {emoteto %1 Prots: none}};#ALARM gagoff +.2 {#GAGOFF};#var protstimed {} {};#var conju_protstimed {} {};#var bard_protstimed {} {};#var druid_protstimed {} {};#var tarm_protstimed {} {};#var nun_protstimed {} {};#var priest_protstimed {} {};#var psi_protstimed {} {};#var templar_protstimed {} {};#var tiger_protstimed {} {};#var reaver_protstimed {} {};#var barb_protstimed {} {};#var merchant_protstimed {} {};#var random_protstimed {} {};#var curse_protstimed {} {}}
+#CLASS 0
+#CLASS {cash}
+#TRIGGER {^It contains (%d) anipium} {#sub {It contains %1 anipium ~(%eval(50 * %1)~)}}
+#TRIGGER {and (%d) mithril} {#sub {%1 mithril ~(%eval(500 * %1)~)}}
+#TRIGGER {(%d) batium} {#sub {%1 batium ~(%eval(100 * %1)~)}}
+#CLASS 0
+#CLASS {misc} {enable}
+#TRIGGER {^You receive a warm and loving thought from *, your spouse.} {#COLOR BOLD,GREEN}
+#TRIGGER {misses you.} {#COLOR BOLD,GREEN}
+#TRIGGER {^You successfully dodge} {#COLOR BOLD,GREEN}
+#TRIGGER {^You successfully parry} {#COLOR BOLD,GREEN}
+#TRIGGER {^Yaboz throws (%w) away!} {party say %1 was tossed by Yaboz!}
+#TRIGGER {^(%w)'s floating disc} {#COLOR BOLD,cyan}
+#TRIGGER {^([a-z,' ']) leaves flying through the air.} {party say -- %1 tossed by bull! --}
+#TRIGGER {^([a-z,' ']) hesitates as (*) casts (*).} {#CW bold,green}
+#TRIGGER {^([a-z,' '])'s face contorts in pain and he falls to {his|her|its} knees!} {#CW bold,red}
+#TRIGGER {^You get the feeling that someone is looking over your shoulder.} {party report Being watched by tiger/psi.}
+#TRIGGER {^([a-z,' ']) leaves as Despana BLASTS him with unholy light.} {party report %1 WAS THROWN OUT!}
+#TRIGGER {^You tweak your own nose mischievously.} {timedcheck}
+#TRIGGER {^Jane the Goddess snaps her fingers and (*) is consumed by bright white} {party say - %1 - WAS TOSSED BY JANE.;}
+#TRIGGER {^Jane the Goddess snaps her fingers and you are consumed by bright white light.} {party say Jane Tossed ME}
+#TRIGGER {^([a-z,' ']) operates on you. It is really painful operation and} {quote 'grep Cha score' say}
+#TRIGGER {^The operation is over before you even notice.} {quote 'grep Cha score' say}
+#TRIGGER {^The explosion catches you unawares and throws you (*).} {#cw bold,green;party report Got Thrown %1}
+#TRIGGER {^([a-z,' ','~-','~'',',']) falls down, arms flailing, helplessly into the mudpit.} {party report %1 is in mudpit!}
+#TRIGGER {^([a-z,' ','~-','~'',',']) regenerates astonishingly fast avoiding death!} {party say %1 AVOIDED DEATH!}
+#TRIGGER {^([a-z,' ','~-','~'',',']) starts grappling ([a-z,' ','~-','~'',',']).} {party say %2 is grappled by %1!}
+#TRIGGER {^([a-z,' ','~-','~'',','])'s face contorts in pain and he falls to {his|her|its} knees!} {#CW bold,red}
+#TRIGGER {^PUFF! Glaced (%w) vanishes into thin air.} {party say - %1 - Glaced!}
+#TRIGGER {%x %s on ~|} {#CW bold,cyan}
+#TRIGGER {%x %s off ~|} {#CW bold,red}
+#TRIGGER {^Iiik! The squid wraps a long rubbery tentacle around your waist and lifts you up!} {party say Squid is Grappling Me}
+#TRIGGER {^Staff of warding vibrates violently by the power of the spell and then splinters into million pieces.} {party say Staff of warding exploded!}
+#CLASS 0
+#CLASS {spellrounds} {disable}
+#TRIGGER {^You feel godly power hasten your casting.} {party report QL. Hastes!}
+#TRIGGER {^You feel some power hasten your casting.} {party report QL. Hastes!}
+#TRIGGER {^You skillfully cast the spell with greater haste.} {party report G.hastes.}
+#TRIGGER {^You skillfully cast the spell with haste.} {party report Hastes.}
+#TRIGGER {^You feel unearthly power hasten your casting.} {party report QL. Hastes!}
+#TRIGGER {^([a-z,' ','~-','~'',',']): (%p)#$} {#IF (%len( %2) < 3) {party report ~[%1] in ~[%eval( %len( %2)+1)]}}
+#TRIGGER {^([a-z,' ','~-','~'',',']): #$} {#IF (%len( %2) < 3) {party report ~[%1] in ~[%eval( %len( %2)+1)]}}
+#CLASS 0
+#CLASS {eq}
+#TRIGGER {^Your (*) gets damaged; it's now in (*) condition.} {party report %1 Got dammaged, now in %2 cond.}
+#TRIGGER {^([a-z,' ','~-','~'',',']) loses its ([a-z,' ','~-','~'',',']) glow.} {party say %1 lost its %2 glow, get merchant to fix that soon!}
+#CLASS 0
+#CLASS {Spider}
+#TRIGGER {^([a-z,' ']) the spider whispers '(*)'} {party say Servant: %1 ~(%2~)}
+#CLASS 0
+#CLASS {Tiger}
+#TRIGGER {^As (*) drops to (*) knees you leap in for the kill!} {party say %1 was Clawed.}
+#TRIGGER {^([a-z,' ']) manages to resist your claws!} {party say %1 resisted claw.}
+#CLASS 0
+#CLASS {dcrit}
+#TRIGGER {^You feel like your spell gained additional power.} {party report Dcrit level 1}
+#TRIGGER {^You feel like you managed to channel additional POWER to your spell.} {party report Dcrit level 2}
+#TRIGGER {^Your fingertips are surrounded with swirling ENERGY as you cast the spell.} {party report Dcrit level 3}
+#TRIGGER {^Surge of power from your staff adds to the power of the spell.} {party report Staff Crit}
+#CLASS 0
+#CLASS {Combat}
+#CLASS 0
+#CLASS {R.I.P}
+#TRIGGER {^* is DEAD, R.I.P.} {}
+#CLASS 0
+#CLASS {prot-t}
+#TRIGGER {^You suddenly feel magically heavier.} {timer hwtime;party report Heavy Weight Active.;#if !%ismember( HW, @prots) {#var prots %additem( HW, @prots)}}
+#TRIGGER {^You feel lighter, but it doesn't seem to affect your weight!} {formattime hwtime;party report Heavy Weight Expires. ~[@{timed}~];#var prots %delitem( HW, @prots)}
+#TRIGGER {^You feel your will getting stronger.} {timer unpaintime;party report Unpain Active.;#if !%ismember( Unp, @prots) {#var prots %additem( Unp, @prots)}}
+#TRIGGER {^You feel your will returning normal.} {formattime unpaintime;party report Unpain Expires. ~[@{timed}~];#var prots %delitem( Unp, @prots)}
+#TRIGGER {^You feel strong ~- like you could carry the whole flat world on your back!} {timer bottime;party report Blessing of Tarmalen Active.;#if !%ismember( BoT, @prots) {#var prots %additem( BoT, @prots)}}
+#TRIGGER {^You feel weaker.} {formattime bottime;party report Blessing of Tarmalen Expires. ~[@{timed}~];#var prots %delitem( BoT, @prots)}
+#TRIGGER {chanting appears to do absolutely nothing.} {timer unstuntime;party report Unstun Active.;#if !%ismember(Us,@prots) {#var prots %additem(Us,@prots)}}
+#TRIGGER {^It doesn't hurt} {formattime unstuntime;party report Unstun Expired. ~[@{timed}~];#var prots %delitem( Us, @prots)}
+#TRIGGER {^Your life force becomes stronger.} {timer SoulShld;party report Soul Shield Active.;#if !%ismember( SoulShld, @prots) {#var prots %additem( SoulShld, @prots)}}
+#TRIGGER {^Your life force seems weaker.} {formattime manashldtime;party report Mana Shield Expires. ~[@{timed}~];#var prots %delitem( ManShld, @prots)}
+#TRIGGER {^A bright light extracts from %w's hands covering your skin.} {timer e.vitaltime;party report Enhanced Vitality Active.;#if !%ismember( E.Vital, @prots) {#var prots %additem( E.Vital, @prots)}}
+#TRIGGER {^Your skin stops glowing.} {formattime e.vitaltime;party report Enhanced Vitality Expires. ~[@{timed}~];#var prots %delitem( E.Vital, @prots)}
+#TRIGGER {^You feel your magical power expanding.} {timer manashldtime;party report Mana Shield Active.;#if !%ismember( ManShld, @prots) {#var prots %additem( ManShld, @prots)}}
+#TRIGGER {^You remove your link.} {formattime lifelinktime;party report No more Life Link to: @lifelinked. ~[@{timed}~];#var prots %delitem( LfLnk~(@lifelinked~), @prots)}
+#TRIGGER {^You hear a loud snap like sound!} {formattime lifelinktime;party report No more Life Link to: @lifelinked. ~[@{timed}~];#var prots %delitem( LfLnk~(@lifelinked~), @prots)}
+#TRIGGER {^You succeed. You create a link to (%w).} {timer lifelinktime;#VA lifelinked %1;party report Life Linked To~: %1.;#if !%ismember( LfLnk~(@lifelinked~), @prots) {#var prots %additem( LfLnk~(@lifelinked~), @prots)}}
+#TRIGGER {^You feel somehow linked to (%w)!} {timer lifelinktime;#VA lifelinked %1;party report Life Linked To~: %1.;#if !%ismember( LfLnk~(@lifelinked~), @prots) {#var prots %additem( LfLnk~(@lifelinked~), @prots)}}
+#CLASS 0
+#CLASS {prot-d}
+#TRIGGER {^You sense a flex shield covering your body like a second skin.} {timer flextime;party report Flex Shield Active.;#if !%ismember( Flex, @prots) {#var prots %additem( Flex, @prots)}}
+#TRIGGER {^An icy chill runs through your veins.} {timer ebtime;party report Earth Blood Active.;#if !%ismember( Eb, @prots) {#var prots %additem( Eb, @prots)}}
+#TRIGGER {^Your flex shield wobbles, PINGs and vanishes.} {formattime flextime;party report Flex Shield Expires. ~[@{timed}~];#var prots %delitem( Flex, @prots)}
+#TRIGGER {^You feel your strength changing. You flex you muscles experimentally.} {timer epowertime;party report Earth Power Active.;#if !%ismember( Epow, @prots) {#var prots %additem( Epow, @prots)}}
+#TRIGGER {^The runic sigla *~%* fade away.. leaving you feeling strange.} {formattime epowertime;party report Earth Power Expires. ~[@{timed}~];#var prots %delitem( Epow, @prots)}
+#TRIGGER {^You feel your metabolism speed up.} {timer regentime;party report Regeneration Active.;#if !%ismember( Regen, @prots) {#var prots %additem( Regen, @prots)}}
+#TRIGGER {^You no longer have a active regeneration spell on you} {formattime regentime;party report Regeneration Expires. ~[@{timed}~];#var prots %delitem( Regen, @prots)}
+#TRIGGER {^The runic sigla ~(Earth Blood~) fade away.. leaving you feeling strange.} {formattime ebtime;party report Earth Blood Expires. ~[@{timed}~];#var prots %delitem( Eb, @prots)}
+#TRIGGER {^You die.} {#ALARM remove_prots +0:05 {#if %ismember( Flex, @prots) {formattime flextime;party report Flex Shield Expires. ~[@{timed}~];#var prots %delitem( Flex, @prots)};#if %ismember( PfE, @prots) {formattime pfetime;party report Protection from Evil Expires. ~[@timed~];#var prots %delitem( PfE, @prots)};#if %ismember( SoulShld, @prots) {formattime SoulShld;party report Soul Shield Expires. ~[@timed~];#var prots %delitem( SoulShld, @prots)};#if %ismember( Vman, @prots) {formattime vinetime;party report Vine Mantle Expires. ~[@timed~];#var prots %delitem( Vman, @prots)};#if %ismember( Eskin, @prots) {formattime vinetime;party report Earth Skin Expires. ~[@timed~];#var prots %delitem( Eskin, @prots)};#if %ismember( HvnlProt, @prots) {formattime HvnlProt;party report Heavenly Protection Expires. ~[@timed~];#var prots %delitem( HvnlProt, @prots)};#VAR skins {0} {0};#VAR vines {0} {0}}}
+#TRIGGER {^You regenerate astonishingly fast. You avoid the death!} {#SUSPEND remove_prots}
+#CLASS 0
+#CLASS {prot-p}
+#TRIGGER {^A vile black aura surrounds you.} {timer pfgtime;party report Protection from Good Active.;#if !%ismember( PfG, @prots) {#var prots %additem( PfG, @prots)}}
+#TRIGGER {^You no longer have a vile black aura around you.} {formattime pfgtime;party report Protection from Good Expires. ~[@{timed}~];#var prots %delitem( PfG, @prots)}
+#TRIGGER {^You feel burning hatred and rage erupt within you!} {timer aohtime;party report Aura of Hate Active.;#if !%ismember( Aura, @prots) {#var prots %additem( Aura, @prots)}}
+#TRIGGER {^You feel your anger and hate of the world recede.} {formattime aohtime;party report Aura of Hate Expires. ~[@{timed}~];#var prots %delitem( Aura, @prots);#T+ prot-aoh}
+#CLASS 0
+#CLASS {prot-ps}
+#TRIGGER {^You are surrounded by divine glow!} {timer shieldoffaithtime;party report Shield of Faith Active.;#if !%ismember( SoF, @prots) {#var prots %additem( SoF, @prots)}}
+#TRIGGER {^Your glow disappears.} {formattime shieldoffaithtime;party report Shield of Faith Expires. ~[@{timed}~];#var prots %delitem( SoF, @prots)}
+#TRIGGER {^You feel rather empty-headed.} {timer forgettime;party report Forget Active.;#if !%ismember( Forget, @prots) {#var prots %additem( Forget, @prots)}}
+#TRIGGER {^A fog lifts from your mind. You can remember things clearly now.} {formattime forgettime;party report Forget Expires. ~[@{timed}~];#var prots %delitem( Forget, @prots)}
+#TRIGGER {^Your feel excruciating pain in your head.} {timer MSuptime;party report Magic Suppression Active.;#if !%ismember( MSup, @prots) {#var prots %additem( MSup, @prots)}}
+#TRIGGER {^You feel relieved.} {formattime MSuptime;party report Magic Suppression Expires. ~[@{timed}~];#var prots %delitem( MSup, @prots)}
+#TRIGGER {^Psionic waves surge through your body and mind!} {timer pshtime;party report Psionic Shield Active.;#if !%ismember( PsiShld, @prots) {#var prots %additem( PsiShld, @prots)}}
+#TRIGGER {^The psionic shield vanishes.} {formattime pshtime;party report Psionic Shield Expires. ~[@{timed}~];#var prots %delitem( PsiShld, @prots)}
+#TRIGGER {^You get hit HARD, but continue your actions under a supernatural trance.} {#Ad trance 1;party report Trance saved @trance spellbreaks.;#IF {@trance=6} {party report Mesmeric Threshold getting weak, please recast.}}
+#TRIGGER {^You feel too mesmerized to know pain as a supernatural trance takes over you.} {timer trancetime;party report Mesmeric Threshold Active.;#if !%ismember( Trance, @prots) {#var prots %additem( Trance, @prots)};#var trance 0}
+#TRIGGER {^The dreamlike feeling improving your concentration subsides.} {formattime trancetime;party report Mesmeric Trance Expires. ~[@{timed}~];#var prots %delitem( Trance, @prots);#var trance 0}
+#TRIGGER {^You feel more aware of your surroundings.} {timer eawaretime;party report Enhanced Awareness Active.;#if !%ismember( E.Aware, @prots) {#var prots %additem( E.Aware, @prots)}}
+#TRIGGER {^You feel your enhanced awareness subside.} {formattime eawaretime;party report Enhanced Awareness Expires. ~[@{timed}~];#var prots %delitem( E.Aware, @prots)}
+#TRIGGER {{forms a shield of force around you.|You form a psionic shield of force around your body.}} {#IF (@stickys < 1) {timer fstime;party report Force Shield Active.;#if !%ismember( Fsh, @prots) {#var prots %additem( Fsh, @prots)}};#IF (@stickys > 0) {timer fstime;party report Force Shield Active. (sticky);#if !%ismember( Fsh~(S~), @prots) {#var prots %additem( Fsh~(S~), @prots)};#AD stickys -1;party report Remanding Resist dispels: @stickys}}
+#TRIGGER {^Your armour feels thinner.} {formattime fstime;party report Force Shield Expires. ~[@{timed}~];#var prots %delitem( Fsh, @prots);#var prots %delitem( Fsh~(S~), @prots)}
+#CLASS 0
+#CLASS {prot-n}
+#ONINPUT {^pfe} {timer pfetime;party report Protection from Evil Active.;#if !%ismember( PfE, @prots) {#var prots %additem( PfE, @prots)}}
+#TRIGGER {^You suddenly feel more vulnerable to evil.} {formattime pfetime;party report Protection from Evil Expires. ~[@{timed}~];#var prots %delitem( PfE, @prots)}
+#TRIGGER {^(%w) places (*) hand over you and blesses your soul in the name of Las.} {timer SoulShld;party report Soul Shield Active.;#if !%ismember( SoulShld, @prots) {#var prots %additem( SoulShld, @prots)}}
+#TRIGGER {^Your soul feels suddenly more vulnerable.} {formattime SoulShld;party report Soul Shield Expires. ~[@{timed}~];#var prots %delitem( SoulShld, @prots)}
+#TRIGGER {^([a-zA-Z' ]) {vibrates under magical pressure|flashes uncanny|glow supernatural light|twinkles|blazes heavenly} as you are} {timer HvnlProt;party report Heavenly Protection Active.;#if !%ismember( HvnlProt, @prots) {#var prots %additem( HvnlProt, @prots)}}
+#TRIGGER {^Holy particles slow down, rapidly fading away.} {formattime HvnlProt;party report Heavenly Protection Expires. ~[@{timed}~];#var prots %delitem( HvnlProt, @prots)}
+#TRIGGER {^You spiritually reach out for your soul, protecting it with holy force.} {timer SoulShld;party report Soul Shield Active.;#if !%ismember( SoulShld, @prots) {#var prots %additem( SoulShld, @prots)}}
+#TRIGGER {^(%w)'s (*) {radiates|glitters|pulsates} with sheer power as you} {timer pfetime;party report Protection from Evil Active.;#if !%ismember( PfE, @prots) {#var prots %additem( PfE, @prots)}}
+#CLASS 0
+#CLASS {prot-c}
+#TRIGGER {^You sense a powerful protective aura around you.} {#if (@conjprot=force) {timer forcetime;party report Force Absorbsion Active.;#if !%ismember( FAB, @prots) {#var prots %additem( FAB, @prots)}};#if (@conjprot=fire) {timer firetime;party report Heat Reduction Active.;#if !%ismember( Fire, @prots) {#var prots %additem( Fire, @prots)}};#if (@conjprot=cold) {timer coldtime;party report Frost Insulation Active.;#if !%ismember( Cold, @prots) {#var prots %additem( Cold, @prots)}};#if (@conjprot=poison) {timer poisontime;party report Toxic Dilution Active.;#if !%ismember( Poison, @prots) {#var prots %additem( Poison, @prots)}};#if (@conjprot=magic) {timer magictime;party report Magic Dispersion Active.;#if !%ismember( Magic, @prots) {#var prots %additem( Magic, @prots)}};#if (@conjprot=acid) {timer acidtime;party report Corrosion Shield Active.;#if !%ismember( Acid, @prots) {#var prots %additem( Acid, @prots)}};#if (@conjprot=electric) {timer electrictime;party report Energy channeling Active.;#if !%ismember( Elec, @prots) {#var prots %additem( Elec, @prots)}};#if (@conjprot=asphx) {timer asphxtime;party report Ether Boundary Active.;#if !%ismember( Asphyx, @prots) {#var prots %additem( Asphyx, @prots)}};#if (@conjprot=psi) {timer psitime;party report Psychic Sanctuary Active.;#if !%ismember( Psi, @prots) {#var prots %additem( Psi, @prots)}}}
+#TRIGGER {^You sense an extra powerful protective aura around you.} {#if (@conjprot=force) {timer forcetime;party report Force Absorbsion Active. (Sticky);#var stickfab 1;#if !%ismember( FAB, @prots) {#var prots %additem( FAB, @prots)}};#if (@conjprot=fire) {timer firetime;party report Heat Reduction Active. (Sticky);#var stickfire 1;#if !%ismember( Fire, @prots) {#var prots %additem( Fire, @prots)}};#if (@conjprot=cold) {timer coldtime;party report Frost Insulation Active. (Sticky);#var stickcold 1;#if !%ismember( Cold, @prots) {#var prots %additem( Cold, @prots)}};#if (@conjprot=poison) {timer poisontime;party report Toxic Dilution Active. (Sticky);#var stickpoison 1;#if !%ismember( Poison, @prots) {#var prots %additem( Poison, @prots)}};#if (@conjprot=magic) {timer magictime;party report Magic Dispersion Active. (Sticky);#var stickmagic 1;#if !%ismember( Magic, @prots) {#var prots %additem( Magic, @prots)}};#if (@conjprot=acid) {timer acidtime;party report Corrosion Shield Active. (Sticky);#var stickacid 1;#if !%ismember( Acid, @prots) {#var prots %additem( Acid, @prots)}};#if (@conjprot=electric) {timer electrictime;party report Energy channeling Active. (Sticky);#var stickelec 1;#if !%ismember( Elec, @prots) {#var prots %additem( Elec, @prots)}};#if (@conjprot=asphx) {timer asphxtime;party report Ether Boundary Active. (Sticky);#var stickasphx 1;#if !%ismember( Asphyx, @prots) {#var prots %additem( Asphyx, @prots)}};#if (@conjprot=psi) {timer psitime;party report Psychic Sanctuary Active. (Sticky);#var stickpsi 1;#if !%ismember( Psi, @prots) {#var prots %additem( Psi, @prots)}}}
+#TRIGGER {^A skin brown flash momentarily surrounds you} {formattime forcetime;party report Force Absorbsion Expires. ~[@{timed}~];#var prots %delitem( FAB, @prots);#var stickfab 0}
+#TRIGGER {^A burning red flash momentarily surrounds you} {formattime firetime;party report Heat Reduction Expires. ~[@{timed}~];#var prots %delitem( Fire, @prots);#var stickfire 0}
+#TRIGGER {^A cold white flash momentarily surrounds you} {formattime coldtime;party report Frost Insulation Expires. ~[@{timed}~];#var prots %delitem( Cold, @prots);#var stickcold 0}
+#TRIGGER {^A green flash momentarily surrounds you} {formattime poisontime;party report Toxic Dilution Expires. ~[@{timed}~];#var prots %delitem( Poison, @prots);#var stickpoison 0}
+#TRIGGER {^A golden flash momentarily surrounds you} {formattime magictime;party report Magic Dispersion Expires. ~[@{timed}~];#var prots %delitem( Magic, @prots);#var stickmagic 0}
+#TRIGGER {^A disgusting yellow flash momentarily surrounds you} {formattime acidtime;party report Corrosion Shield Expires. ~[@{timed}~];#var prots %delitem( Acid, @prots);#var stickacid 0}
+#TRIGGER {^A crackling blue flash momentarily surrounds you} {formattime electrictime;party report Energy channeling Expires. ~[@{timed}~];#var prots %delitem( Elec, @prots);#var stickelec 0}
+#TRIGGER {^A dull black flash momentarily surrounds you} {formattime asphxtime;party report Ether Boundary Expires. ~[@{timed}~];#var prots %delitem( Asphyx, @prots);#var stickasphx 0}
+#TRIGGER {^A transparent flash momentarily surrounds you} {formattime psitime;party report Psychic Sanctuary Expires. ~[@{timed}~];#var prots %delitem( Psi, @prots);#var stickpsi 0}
+#TRIGGER {^You feel no longer protected from being stunned.} {formattime iwilltime;party report Iron Will Expires. ~[@{timed}~];#var prots %delitem( IW, @prots)}
+#TRIGGER {^You feel a slight tingle.} {timer Soptime;party report Shield of Protection Active.;#if !%ismember( SoP, @prots) {#var prots %additem( SoP, @prots)}}
+#TRIGGER {^You feel more vulnerable now.} {formattime Soptime;party report Shield of Protection Expires. ~[@{timed}~];#var prots %delitem( SoP, @prots)}
+#TRIGGER {^You feel much more vulnerable.} {#if (%ismember( Fire, @prots)) {#if (@stickfire == 0) {#var prots %delitem( Fire, @prots);party report Heat Reduction was destroyed!}};#if (%ismember( Cold, @prots)) {#if (@stickcold == 0) {#var prots %delitem( Cold, @prots);party report Frost Insulation was destroyed!}};#if (%ismember( Elec, @prots)) {#if (@stickelec == 0) {#var prots %delitem( Elec, @prots);party report Energy Channeling was destroyed!}};#if (%ismember( Acid, @prots)) {#if (@stickacid == 0) {#var prots %delitem( Acid, @prots);party report Corrosion Shield was destroyed!}};#if (%ismember( Poison, @prots)) {#if (@stickpoison == 0) {#var prots %delitem( Poison, @prots);party report Toxic Dilution was destroyed!}};#if (%ismember( Psi, @prots)) {#if (@stickpsi == 0) {#var prots %delitem( Psi, @prots);party report Psychic Sanctuary was destroyed!}};#if (%ismember( Magic, @prots)) {#if (@stickmagic == 0) {#var prots %delitem( Magic, @prots);party report Magic Dispersion was destroyed!}};#if (%ismember( Asphyx, @prots)) {#if (@stickasphx == 0) {#var prots %delitem( Asphyx, @prots);party report Ether Boundary was destroyed!}};#if (%ismember( FAB, @prots)) {#if (@stickfab == 0) {#var prots %delitem( FAB, @prots);party report Force Absorption was destroyed!}}}
+#TRIGGER {^You feel less invisible.} {formattime Blurtime;party report Blurred Image Expires. ~[@{timed}~];#var prots %delitem( Blur, @prots)}
+#TRIGGER {^You feel much less invisible.} {formattime Disptime;party report Displacement Expires. ~[@{timed}~];#var prots %delitem( Disp, @prots)}
+#TRIGGER {^You feel light, and rise into the air.} {timer floattime;party report Floating Active.;#if !%ismember( Float, @prots) {#var prots %additem( Float, @prots)}}
+#TRIGGER {^You slowly descend until your feet are on the ground.} {formattime floattime;party report Floating Expires. ~[@{timed}~];#var prots %delitem( Float, @prots)}
+#TRIGGER {^You feel protected from being stunned.} {timer iwilltime;party report Iron Will Active.;#if !%ismember( IW, @prots) {#var prots %additem( IW, @prots)}}
+#TRIGGER {^Your displacement spell wears off.} {formattime Disptime;party report Displacement Expires. ~[@{timed}~];#var prots %delitem( Disp, @prots)}
+#TRIGGER {^Your blurred image spell wears off.} {formattime Blurtime;party report Blurred Image Expires. ~[@{timed}~];#var prots %delitem( Blur, @prots)}
+#TRIGGER {^You feel your life force expanding.} {timer RessEnttime;party report Resist Entropy Active.;#if !%ismember( R.Ent, @prots) {#var prots %additem( R.Ent, @prots)}}
+#TRIGGER {^You feel your hair is getting grayer.} {formattime RessEnttime;party report Resist Entropy Expires. ~[@{timed}~];#var prots %delitem( R.Ent, @prots)}
+#TRIGGER {^You feel a powerful aura.} {#if (@conjprot=disp) {timer disptime;#IF {@stickys>"0"} {party say Sticky Displacement Active.;#AD stickys -1;party report Remanding Resist dispels: @stickys};#IF {@stickys="0"} {party say Displacement Active.};#if !%ismember( Disp, @prots) {#var prots %additem( Disp, @prots)}};#if (@conjprot=blur) {timer blurtime;#IF {@stickys>"0"} {party say Sticky Blurred Image Active.;#AD stickys -1;party report Remanding Resist dispels: @stickys};#IF {@stickys="0"} {party say Blurred Image Active.};#if !%ismember( Blur, @prots) {#var prots %additem( Blur, @prots)}}}
+#CLASS 0
+#CLASS {prot-c-l}
+#TRIGGER {ztonez des deckers} {#var conjprot force}
+#TRIGGER {hot hot not zeis daimons} {#var conjprot fire}
+#TRIGGER {skaki barictos yetz fiil} {#var conjprot cold}
+#TRIGGER {morri nam pantoloosa} {#var conjprot poison}
+#TRIGGER {meke tul magic} {#var conjprot magic}
+#TRIGGER {sulphiraidzik hydrochloodriz gidz zuf} {#var conjprot acid}
+#TRIGGER {kablaaaammmmm bliitz zundfer} {#var conjprot electric}
+#TRIGGER {qor monoliftus} {#var conjprot asphx}
+#TRIGGER {toughen da mind reeez un biis} {#var conjprot psi}
+#TRIGGER {'ziiiuuuuns wiz'} {#var conjprot blur}
+#TRIGGER {'diiiiuuunz aaanziz'} {#var conjprot disp}
+#CLASS 0
+#CLASS {prot-b}
+#TRIGGER {^You feel full of battle rage! Victory is CERTAIN!} {timer wartime;party report War Ensemble Active.;#if !%ismember( War, @prots) {#var prots %additem( War, @prots)}}
+#TRIGGER {^You feel optimistic about your near future!} {timer archfav;party report Arches Favour Active.;#if (!%ismember( Luck, @prots)) {#var prots %additem( Luck, @prots)}}
+#TRIGGER {^You no longer have Arches Favour on you. You feel sad.} {formattime archfav;party report Arches Favour Expires. ~[@timed~];#var prots %delitem( Luck, @prots)}
+#TRIGGER {^The embracing melody subsides, leaving you longing for more.} {formattime emtime;party report Embracing Melody Expires. ~[@{timed}~];#var prots %delitem( Embr, @prots)}
+#TRIGGER {^%w wraps you into an embracing melody.} {timer emtime;party report Embracing Melody Active.;#if !%ismember( Embr, @prots) {#var prots %additem( Embr, @prots)}}
+#TRIGGER {^The effect of war ensemble wears off.} {formattime wartime;party report War Ensemble Expires. ~[@{timed}~];#var prots %delitem( War, @prots)}
+#TRIGGER {^You embrace yourself with your melody.} {timer emtime;party report Embracing Melody Active.;#if !%ismember( Embr, @prots) {#var prots %additem( Embr, @prots)}}
+#CLASS 0
+#CLASS {prot-c-p}
+#TRIGGER {^You see a flickering golden shield fade into existance around you.} {timer gmagic;party report Repulsor Aura Active.;#if !%ismember( G-Magic, @prots) {#var prots %additem( G-Magic, @prots)}}
+#TRIGGER {^Your flickering golden shield fades out.} {formattime gmagic;party report Repulsor Aura Expires. ~[@{timed}~];#var prots %delitem( G-Magic, @prots);#var prots %delitem( G-Magic~(S~), @prots);#var stuckgmagic 0}
+#TRIGGER {^You see a slimy olive green shield fade into existance around you.} {timer gpoison;party report Shield of Detoxification Active.;#if !%ismember( G-Poison, @prots) {#var prots %additem( G-Poison, @prots)}}
+#TRIGGER {^Your slimy olive green shield fades out.} {formattime gpoison;party report Shield of Detoxification Expires. ~[@{timed}~];#var prots %delitem( G-Poison, @prots);#var prots %delitem( G-Poison~(S~), @prots);#var stuckgpoison 0}
+#TRIGGER {^You see a swirling foggy white shield fade into existance around you.} {timer gasphyx;party report Aura of Wind Active.;#if !%ismember( G-Asphyx, @prots) {#var prots %additem( G-Asphyx, @prots)}}
+#TRIGGER {^Your swirling foggy white shield fades out.} {formattime gasphyx;party report Aura of Wind Expires. ~[@{timed}~];#var prots %delitem( G-Asphyx, @prots);#var prots %delitem( G-Asphyx~(S~), @prots);#var stuckgasphx 0}
+#TRIGGER {^You see a bubbling yellow shield fade into existance around you.} {timer gacid;party report Acid Shield Active.;#if !%ismember( G-Acid, @prots) {#var prots %additem( G-Acid, @prots)}}
+#TRIGGER {^Your bubbling yellow shield fades out.} {formattime gacid;party report Acid Shield Expires. ~[@{timed}~];#var prots %delitem( G-Acid, @prots);#var prots %delitem( G-Acid~(S~), @prots);#var stuckgacid 0}
+#TRIGGER {^You see a neon purple shield fade into existance around you.} {timer gelec;party report Lightning Shield Active.;#if !%ismember( G-Elec, @prots) {#var prots %additem( G-Elec, @prots)}}
+#TRIGGER {^Your neon purple shield fades out.} {formattime gelec;party report Lightning Shield Expires. ~[@{timed}~];#var prots %delitem( G-Elec, @prots);#var prots %delitem( G-Elec~(S~), @prots);#var stuckgelec 0}
+#TRIGGER {^You see a crackling red-orange shield fade into existance around you.} {timer gfire;party report Flame Shield Active.;#if !%ismember( G-Fire, @prots) {#var prots %additem( G-Fire, @prots)}}
+#TRIGGER {^Your crystal clear shield fades out.} {formattime aoatime;party report Aether Armour Expires. ~[@{timed}~];#var prots %delitem( AOA, @prots);#var prots %delitem( AOA~(S~), @prots);#var stuckaoa 0}
+#TRIGGER {^Your frosty blue-white shield fades out.} {formattime gcold;party report Frost Shield Expires. ~[@{timed}~];#var prots %delitem( G-Cold, @prots);#var prots %delitem( G-Cold~(S~), @prots);#var stuckgcold 0}
+#TRIGGER {^Your crackling red-orange shield fades out.} {formattime gfire;party report Flame Shield Expires. ~[@{timed}~];#var prots %delitem( G-Fire, @prots);#var prots %delitem( G-Fire~(S~), @prots);#var stuckgfire 0}
+#TRIGGER {^You see a crystal clear shield fade into existance around you.} {timer aoatime;party report Aether Armour Active.;#if !%ismember( AOA, @prots) {#var prots %additem( AOA, @prots)}}
+#TRIGGER {^You see a frosty blue-white shield fade into existance around you.} {timer gcold;party report Frost Shield Active.;#if !%ismember( G-Cold, @prots) {#var prots %additem( G-Cold, @prots)}}
+#TRIGGER {^You see a misty pale blue shield fade into existance around you.} {timer gpsi;party report Psionic Phalanx Active.;#if !%ismember( G-Psi, @prots) {#var prots %additem( G-Psi, @prots)}}
+#TRIGGER {^Your misty pale blue shield fades out.} {formattime gpsi;party report Psionic Phalanx Expires. ~[@{timed}~];#var prots %delitem( G-Psi, @prots);#var prots %delitem( G-Psi~(S~), @prots);#var stuckgpsi 0}
+#TRIGGER {^You feel unprotected.} {#if (%ismember( G-Fire, @prots)) {#if (@stuckgfire == 0) {#var prots %delitem( G-Fire, @prots);#var prots %delitem( G-Fire~(S~), @prots);party report Flame Shield was destroyed!}};#if (%ismember( G-Cold, @prots)) {#if (@stuckgcold == 0) {#var prots %delitem( G-Cold, @prots);#var prots %delitem( G-Cold~(S~), @prots);party report Frost Shield was destroyed!}};#if (%ismember( G-Elec, @prots)) {#if (@stuckgelec == 0) {#var prots %delitem( G-Elec, @prots);#var prots %delitem( G-Elec~(S~), @prots);party report Lightning Shield was destroyed!}};#if (%ismember( G-Acid, @prots)) {#if (@stuckgacid == 0) {#var prots %delitem( G-Acid, @prots);#var prots %delitem( G-Acid~(S~), @prots);party report Acid Shield was destroyed!}};#if (%ismember( G-Asphyx, @prots)) {#if (@stuckgasphx == 0) {#var prots %delitem( G-Asphyx, @prots);#var prots %delitem( G-Asphyx~(S~), @prots);party report Aura of Wind was destroyed!}};#if (%ismember( G-Magic, @prots)) {#if (@stuckgmagic == 0) {#var prots %delitem( G-Magic, @prots);#var prots %delitem( G-Magic~(S~), @prots);party report Repulsor Aura was destroyed!}};#if (%ismember( G-Poison, @prots)) {#if (@stuckgpoison == 0) {#var prots %delitem( G-Poison, @prots);#var prots %delitem( G-Poison~(S~), @prots);party report Shield of Detoxification was destroyed!}};#if (%ismember( AOA, @prots)) {#if (@stuckaoa == 0) {#var prots %delitem( AOA, @prots);#var prots %delitem( AOA~(S~), @prots);party report Aether Armour was destroyed!}};#if (%ismember( G-Psi, @prots)) {#if (@stuckgpsi == 0) {#var prots %delitem( G-Psi, @prots);#var prots %delitem( G-Psi~(S~), @prots);party report Psionic Phalanx was destroyed!}}}
+#TRIGGER {^You feel much more vulnerable.} {#if %ismember( SoF, @prots) {formattime shieldoffaithtime;party report Shield of Faith Expires. ~[@timed~];#var prots %delitem( SoF, @prots)}}
+#CLASS 0
+#CLASS {prot-tiger}
+#TRIGGER {^Your fists are surrounded by Curath's black flames!} {timer FFtime;party report Flame Fists Active.;#if !%ismember( FF, @prots) {#var prots %additem( FF, @prots)}}
+#TRIGGER {^Your flaming fists disappear.} {formattime fftime;party report Flame Fists Expires. ~[@{timed}~];#var prots %delitem( FF, @prots)}
+#TRIGGER {^You feel light.} {timer wwtime;party report Water Walking Active.;#if !%ismember( WW, @prots) {#var prots %additem( WW, @prots)}}
+#TRIGGER {^You feel heavier.} {formattime wwtime;party report Water Walking Expires. ~[@{timed}~];#var prots %delitem( WW, @prots)}
+#TRIGGER {^You feel more agile.} {timer qstime;party report Quicksilver Active.;#if !%ismember( QS, @prots) {#var prots %additem( QS, @prots)}}
+#TRIGGER {^You feel less agile.} {formattime qstime;party report Quicksilver Expires. ~[@{timed}~];#var prots %delitem( QS, @prots)}
+#CLASS 0
+#CLASS {prot-s}
+#TRIGGER {^Something burns inside your veins.} {timer touchtime;party report Spider Touch Active.;#if !%ismember( Touch, @prots) {#var prots %additem( Touch, @prots)}}
+#TRIGGER {^Your blood does not burn anymore.} {formattime touchtime;party report Spider Touch Expires. ~[@{timed}~];#var prots %delitem( Touch, @prots)}
+#TRIGGER {^For some reason you want to run on the walls for a little while.} {timer walktime;party report Spider Walk Active.;#if !%ismember( SWalk, @prots) {#var prots %additem( SWalk, @prots)}}
+#TRIGGER {^The walls don't look so inviting anymore.} {formattime walktime;party report Spider Walk Expires. ~[@{timed}~];#var prots %delitem( SWalk, @prots)}
+#TRIGGER {^([a-z,' ','~-','~'',',']) turns very pale and shivers as if she had just been poisoned.} {party say -%1- has been Spider Touched.}
+#CLASS 0
+#CLASS {Blastanal}
+#TRIGGER {^You feel your skills in handling elemental forces improve.} {party say Gained Essence!}
+#TRIGGER {^You watch with selfpride as your golden arrow hits} {#var blasttype Magical}
+#TRIGGER {^You watch with selfpride as your acid blast hits} {#var blasttype Acid}
+#TRIGGER {^You watch with selfpride as your electrocution hits} {#var blasttype Electric}
+#TRIGGER {^You watch with selfpride as your summon carnal spores hits} {#var blasttype Poison}
+#TRIGGER {^You watch with selfpride as your blast vacuum hits} {#var blasttype Asphyx}
+#TRIGGER {^You watch with selfpride as your lava blast hits} {#var blasttype Fire}
+#TRIGGER {^You watch with selfpride as your cold ray hits} {#var blasttype Cold}
+#TRIGGER {^You watch with selfpride as your (*) hits} {#IF ("%1"="levin bolt") {#VAR blasttype Magical}}
+#TRIGGER {^You watch with selfpride as your channelball hits} {#var blasttype Magical}
+#TRIGGER {^You watch with selfpride as your channelbolt hits} {#var blasttype Electric}
+#TRIGGER {^You watch with selfpride as your channelburn hits} {#var blasttype Fire}
+#TRIGGER {^You crush * mind with your psychic attack!} {#var blasttype Psi}
+#TRIGGER {^You hurl dozens of globes of sizzling blue fire towards your enemies} {#var blasttype Fire}
+#TRIGGER {^You send forth a roaring blast of blue magic towards * and anything} {#var blasttype Magical}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) grunts from the pain.} {party report %1 (grunts 60% resist) ~(@blasttype~);#ECHO 60% RESIST!}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) writhes in agony.} {party report %1 (Writhes 20% resist) ~(@blasttype~);#ECHO 20% RESIST!}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) winces a little from the pain.} {party report %1 (winces 80% resist) ~(@blasttype~);#ECHO 80% RESIST!}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) shudders from the force of the attack.} {party report %1 (shudders 40% resist) ~(@blasttype~);#ECHO 40% RESIST!}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) shrugs off the attack.} {party report %1 (shrugs 100% resist) ~(@blasttype~);#ECHO 100% RESIST!}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) screams in pain.} {party report %1 (Screams 0% resist) ~(@blasttype~);#ECHO SCREAMS like a BITCH!}
+#CLASS 0
+#CLASS {prot-barb}
+#TRIGGER {^You begin to concentrate on pain threshold.} {timer threshtime;party report Pain Threshold Active.;#if !%ismember( PThresh, @prots) {#var prots %additem( PThresh, @prots)}}
+#TRIGGER {^Your concentration breaks and you feel less protected from physical damage.} {formattime threshtime;party report Pain Threshold Expires. ~[@{timed}~];#var prots %delitem( PThresh, @prots)}
+#CLASS 0
+#CLASS {prot-crimson}
+#TRIGGER {^You kneel in front of (%w) and whisper} {timer pbstime;#VA pbsto %1;party report Protection by Sacrifice Active to~: %1.;#if !%ismember( PBS~(@pbsto~), @prots) {#var prots %additem( PBS~(@pbsto~), @prots)}}
+#TRIGGER {^You no longer protect (%w)} {formattime pbstime;party report No longer Protect: @pbsto. ~[@{timed}~];#var prots %delitem( PBS~(@pbsto~), @prots)}
+#TRIGGER {^(%w) kneels before you and whispers 'With my life I'll protect yours'.} {timer pbstime;#VA pbsto %1;party report Protection by Sacrifice Active from~: %1.;#if !%ismember( PBS~(@pbsto~), @prots) {#var prots %additem( PBS~(@pbsto~), @prots)}}
+#TRIGGER {^You are no longer protected by (%w).} {formattime pbstime;party report No longer Protected by: @pbsto. ~[@{timed}~];#var prots %delitem( PBS~(@pbsto~), @prots)}
+#TRIGGER {^(%w) no longer protects you.} {formattime pbstime;party report No longer Protected by: @pbsto. ~[@{timed}~];#var prots %delitem( PBS~(@pbsto~), @prots)} "" {disable}
+#CLASS 0
+#CLASS {prot-barb|Enrage}
+#TRIGGER {^Holy CRAP! OH what a RUSH!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You are ENRAGED! Your body ACHES for action!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You are maddened with rage!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^YOU FEEL AS IF YOU WERE GROO HIMSELF!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You feel mildly enraged.} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You feel the adrenaline BURST into your veins!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You feel TOTALLY ENRAGED and ready to KICK ASS!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You feel your barbarian rage stir up.} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#TRIGGER {^You no longer feel enraged.} {formattime enragetime;party report Enrage Expires. ~[@{timed}~];#var prots %delitem( Rage, @prots)}
+#TRIGGER {^You tremble uncontrollably and feel completely ENRAGED!} {timer enragetime;party report Enrage Active.;#if !%ismember( Rage, @prots) {#var prots %additem( Rage, @prots)}}
+#CLASS 0
+#CLASS {prot-barb|Lure}
+#TRIGGER {You have trouble but manage to} {party report 1 Round Lure}
+#TRIGGER {You valiantly strike back at} {party report 2 Round Lure}
+#TRIGGER {You see opportunity and butt the shaft} {party report 3 Round Lure}
+#TRIGGER {You go 'GOTCHA!'} {party report 4 Round Lure}
+#TRIGGER {And brutally shove your weapon down} {party report 5 Round Lure}
+#TRIGGER {But (%w)'s extreme knowledge in stunned maneuvers} {party report %1 maneuvered lure!}
+#CLASS 0
+#CLASS {prot-d|Vine Mantle}
+#TRIGGER {^The vines around your body shrink.} {#IF (@vines>0) {#MATH vines @vines-1};party report Vine Mantle Lessened ~[@vines~];#IF (@vines=0) {#var prots %delitem(Vman,@prots)}}
+#TRIGGER {^Vines entangle your body.} {timer vinetime;#IF !%ismember(Vman,@prots) {#var prots %additem(Vman,@prots)};#MATH vines {@vines+1};party report Vine Mantle Active ~{Currently have~: @vines~}}
+#TRIGGER {^The vines crumbles to dust.} {#IF (@vines>0) {#MATH vines 0};party report Vine Mantle Expires. ~[@vines~];#IF (@vines=0) {#var prots %delitem(Vman,@prots)}}
+#CLASS 0
+#CLASS {prot-d|Eskin}
+#TRIGGER {^You feel your skin harden.} {timer eskintime;#IF !%ismember( Eskin,@prots) {#var prots %additem( Eskin,@prots)};#MATH skins {@skins+1};party report Earth Skin Active ~{Currently have~: @skins~}}
+#TRIGGER {^Your skin feels softer.} {#IF (@skins>0) {#MATH skins @skins-1};party report Earth Skin Expires ~[@skins~];#IF (@skins=0) {#var prots %delitem( Eskin,@prots)}}
+#CLASS 0
+#CLASS {prot-loc}
+#TRIGGER {^A veiled darkness descends over your eyes.} {timer dragetime;party report Destructive Rage Active.;#if !%ismember( DRage, @prots) {#var prots %additem( DRage, @prots)}}
+#TRIGGER {^You tighten your grip on your weapon.} {formattime dragetime;party report Destructive Rage Expires. ~[@{timed}~];#var prots %delitem( DRage, @prots)}
+#CLASS 0
+#CLASS {Curses}
+#TRIGGER {^(%w) twirls before you.} {formattime mobdegentime;#var mobdegenlast @{timed};formattime mobcottime;#var mobcotlast @{timed};formattime mobtouchtime;#var mobtouchlast @{timed};#IF @mobdegenlast=0s {#VAR mobdegenlast none};#IF @mobcotlast=0s {#VAR mobcotlast none};#IF @mobtouchlast=0s {#VAR mobtouchlast none};party report ~[Twirl~]~[D:(@mobdegened) @{mobdegenlast}~] ~[C:(@mobcotted) @{mobCotlast}~] ~[T:(@mobtouched) @{mobtouchlast}~]}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) turns very pale and shivers as if {he|she|it} had just been poisoned.} {party report %1 was Touched!;timer mobtouchtime;#VAR mobtouched {%1};#ALARM "mobtouchtime" +960 {#VAR mobTouchtime NONE};#ALARM "mobtouchlast" +960 {#VAR mobTouchlast NONE}}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) turns very pale!} {party report %1 was Cotted!;timer mobcottime;#VAR mobcotted {%1};#ALARM "mobcottime" +960 {#VAR mobCottime NONE};#ALARM "mobcotlast" +960 {#VAR mobCotlast NONE}}
+#TRIGGER {^([a-z,0-9,' ','~-','~'',',']) appears weakened!} {party report %1 was Degenerated!;timer mobdegentime;#VAR mobdegened {%1};#ALARM "mobdegentime" +960 {#VAR mobDegentime NONE};#ALARM "mobdegenlast" +960 {#VAR mobDegenlast NONE}}
+#CLASS 0
+#CLASS {Sticky} {enable}
+#TRIGGER {^You feel extra sticky for protection.} {#Ad stickys 1;party report Stacked Resist Dispels: @stickys}
+#TRIGGER {^You feel magical forces binding the spell to you.} {#Ad stickys -1;party report Stacked Resist Dispels: @stickys}
+#TRIGGER {^You see an extra} {#Ad stickys -1;party report Stacked Resist Dispels: @stickys}
+#CLASS 0
+#CLASS {prot-c-ps} {enable}
+#TRIGGER {^You see an extra (*) fade into existance around you.} {#IF {"%1"="swirling foggy white shield"} {timer gasphyx;party report Aura of Wind Active. (sticky);#if !%ismember( G-Asphyx~(S~), @prots) {#var prots %additem( G-Asphyx~(S~), @prots)};#var stuckgasphx 1};#IF {"%1"="slimy olive green shield"} {timer gpoison;party report Shield of Detoxification Active. (sticky);#if !%ismember( G-Poison~(S~), @prots) {#var prots %additem( G-Poison~(S~), @prots)};#var stuckgpoison 1};#IF {"%1"="neon purple shield"} {timer gelec;party report Lightning Shield Active. (sticky);#if !%ismember( G-Elec~(S~), @prots) {#var prots %additem( G-Elec~(S~), @prots)};#var stuckgelec 1};#IF {"%1"="misty pale blue shield"} {timer gpsi;party report Psionic Phalanx Active. (sticky);#if !%ismember( G-Psi~(S~), @prots) {#var prots %additem( G-Psi~(S~), @prots)};#var stuckgpsi 1};#IF {"%1"="frosty blue-white"} {timer gcold;party report Frost Shield Active. (sticky);#if !%ismember( G-Cold~(S~), @prots) {#var prots %additem( G-Cold~(S~), @prots)};#var stuckgcold 1};#IF {"%1"="flickering golden shield"} {timer gmagic;party report Repulsor Aura Active. (sticky);#if !%ismember( G-Magic~(S~), @prots) {#var prots %additem( G-Magic~(S~), @prots)};#var stuckgmagic 1};#IF {"%1"="crystal clear shield"} {timer aoatime;party report Aether Armour Active. (sticky);#if !%ismember( AOA~(S~), @prots) {#var prots %additem( AOA~(S~), @prots)};#var stuckaoa 1};#IF {"%1"="crackling red-orange shield"} {timer gfire;party report Flame Shield Active. (sticky);#if !%ismember( G-Fire~(S~), @prots) {#var prots %additem( G-Fire~(S~), @prots)};#var stuckgfire 1};#IF {"%1"="bubbling yellow shield"} {timer gacid;party report Acid Shield Active. (sticky);#if !%ismember( G-Acid~(S~), @prots) {#var prots %additem( G-Acid~(S~), @prots)};#var stuckgacid 1}}
+#CLASS 0
+#CLASS {prot-random}
+#TRIGGER {^You have infravision.} {timer infratime;#IF !%ismember( Infra, @prots) {#var prots %additem( Infra, @prots)};party report Infravision Active.}
+#TRIGGER {^Everything no longer seems so red.} {formattime infratime;party report Infravision Expires. ~[@{timed}~];#var prots %delitem( Infra, @prots)}
+#TRIGGER {^You suddenly can't see yourself.} {timer Invistime;party report Invisibility Active.;#if !%ismember( Invis, @prots) {#var prots %additem( Invis, @prots)}}
+#TRIGGER {^You turn visible.} {formattime Invistime;party report Invisibility Expires. ~[@{timed}~];#var prots %delitem( Invis, @prots)}
+#CLASS 0
+#CLASS {prot-merch}
+#TRIGGER {^You feel odd. Not stronger, but...} {timer loltime;party report Lift of Load Active.;#if !%ismember( LoL, @prots) {#var prots %additem( LoL, @prots)}}
+#TRIGGER {^You feel odd. Not weaker, but...} {formattime loltime;party report Lift of Load Expires. ~[@{timed}~];#var prots %delitem( LoL, @prots)}
+#CLASS 0
+#CLASS {magestaff}
+#TRIGGER {^Your staff vibrates as it zaps (*) with a bolt of lighting.} {#cw bold,green}
+#TRIGGER {{You feel your staff touching your mind.|You feel the staff tingle as a glowing fireball shoots from your staff toward|You feel slight shudder as small fireball shoots from your staff toward|The old staff grows lighter in your hand, helping you with your burden.|Power flows from your staff to the spell.|Your staff vibrates.|BRIGHT ray of|Your mage staff flashes and drains the power|Suddenly a bolt of ice shoots from your staff toward}} {#CW bold,green}
+#CLASS 0
+#CLASS {party|tweak}
+#ALIAS plv {party leave;#VAR INPARTY 0;#VAR pmembers {} {}}
+#TRIGGER {^@(%w) tweaks your nose mischievously.} {#if (%ismember( SoP, @prots)) {formattime Soptime;#var protstimed %additem( SoP @timed, @protstimed)};#if (%ismember( PfE, @prots)) {formattime pfetime;#var protstimed %additem( PfE @timed, @protstimed)};#if (%ismember( PfG, @prots)) {formattime pfgtime;#var protstimed %additem( PfG @timed, @protstimed)};#if (%ismember( Fire, @prots)) {formattime firetime;#var protstimed %additem( Fire @timed, @protstimed)};#if (%ismember( Elec, @prots)) {formattime electrictime;#var protstimed %additem( Elec @timed, @protstimed)};#if (%ismember( Psi, @prots)) {formattime psitime;#var protstimed %additem( Psi @timed, @protstimed)};#if (%ismember( Cold, @prots)) {formattime coldtime;#var protstimed %additem( Cold @timed, @protstimed)};#if (%ismember( Acid, @prots)) {formattime acidtime;#var protstimed %additem( Acid @timed, @protstimed)};#if (%ismember( Asphyx, @prots)) {formattime asphxtime;#var protstimed %additem( Asphyx @timed, @protstimed)};#if (%ismember( Poison, @prots)) {formattime poisontime;#var protstimed %additem( Poison @timed, @protstimed)};#if (%ismember( Magic, @prots)) {formattime magictime;#var protstimed %additem( Magic @timed, @protstimed)};#if (%ismember( G-Fire, @prots)) {formattime gfire;#var protstimed %additem( G-Fire @timed, @protstimed)};#if (%ismember( G-Acid, @prots)) {formattime gacid;#var protstimed %additem( G-Acid @timed, @protstimed)};#if (%ismember( G-Magic, @prots)) {formattime gmagic;#var protstimed %additem( G-Magic @timed, @protstimed)};#if (%ismember( G-Cold, @prots)) {formattime gcold;#var protstimed %additem( G-Cold @timed, @protstimed)};#if (%ismember( G-Psi, @prots)) {formattime gpsi;#var protstimed %additem( G-Psi @timed, @protstimed)};#if (%ismember( G-Poison, @prots)) {formattime gpoison;#var protstimed %additem( G-Poison @timed, @protstimed)};#if (%ismember( G-Elec, @prots)) {formattime gelec;#var protstimed %additem( G-Elec @timed, @protstimed)};#if (%ismember( G-Asphyx, @prots)) {formattime gasphyx;#var protstimed %additem( G-Asphyx @timed, @protstimed)};#if (%ismember( Embr, @prots)) {formattime emtime;#var protstimed %additem( Embr @timed, @protstimed)};#if (%ismember( War, @prots)) {formattime wartime;#var protstimed %additem( War @timed, @protstimed)};#if (%ismember( Aura, @prots)) {formattime aohtime;#var protstimed %additem( Aura @timed, @protstimed)};#if (%ismember( FAB, @prots)) {formattime forcetime;#var protstimed %additem( FAB @timed, @protstimed)};#if (%ismember( Fsh, @prots)) {formattime fstime;#var protstimed %additem( Fsh @timed, @protstimed)};#if (%ismember( HW, @prots)) {formattime hwtime;#var protstimed %additem( HW @timed, @protstimed)};#if (%ismember( Regen, @prots)) {formattime regentime;#var protstimed %additem( Regen @timed, @protstimed)};#if (%ismember( AOA, @prots)) {formattime aoatime;#var protstimed %additem( AOA @timed, @protstimed)};#if (%ismember( Flex, @prots)) {formattime Flextime;#var protstimed %additem( Flex @timed, @protstimed)};#if (%ismember( Us, @prots)) {formattime unstuntime;#var protstimed %additem( Us @timed, @protstimed)};#if (%ismember( Unp, @prots)) {formattime unpaintime;#var protstimed %additem( Unp @timed, @protstimed)};#if (%ismember( Blur, @prots)) {formattime blurtime;#var protstimed %additem( Blur @timed, @protstimed)};#if (%ismember( Disp, @prots)) {formattime disptime;#var protstimed %additem( Disp @timed, @protstimed)};#if (%ismember( FF, @prots)) {formattime FFtime;#var protstimed %additem( FF @timed, @protstimed)};#if (%ismember( WW, @prots)) {formattime WWtime;#var protstimed %additem( WW @timed, @protstimed)};#if (%ismember( Touch, @prots)) {formattime Touchtime;#var protstimed %additem( Touch @timed, @protstimed)};#if (%ismember( MSup, @prots)) {formattime MSuptime;#var protstimed %additem( MSup @timed, @protstimed)};#if (%ismember( Forget, @prots)) {formattime forgettime;#var protstimed %additem( Forget @timed, @protstimed)};#if (%ismember( Eb, @prots)) {formattime ebtime;#var protstimed %additem( Eb @timed, @protstimed)};#if (%ismember( SWalk, @prots)) {formattime walktime;#var protstimed %additem( SWalk @timed, @protstimed)};#if (%ismember( E.Vital, @prots)) {formattime e.vitaltime;#var protstimed %additem( E.Vital @timed, @protstimed)};#if (%ismember( Luck, @prots)) {formattime archfav;#var protstimed %additem( Luck @timed, @protstimed)};#if (%ismember( QS, @prots)) {formattime qstime;#var protstimed %additem( QS @timed, @protstimed)};#if (%ismember( Epow, @prots)) {formattime epowertime;#var protstimed %additem( Epow @timed, @protstimed)};#if (%ismember( HvnlProt, @prots)) {formattime HvnlProt;#var protstimed %additem( HvnlProt @timed, @protstimed)};#if (%ismember( PsiShld, @prots)) {formattime pshtime;#var protstimed %additem( PsiShld @timed, @protstimed)};#if (%ismember( Vman, @prots)) {formattime vinetime;#var protstimed %additem( Vman @timed, @protstimed)};#if (%ismember( Eskin, @prots)) {formattime eskintime;#var protstimed %additem( Eskin @timed, @protstimed)};#if (%ismember( SoF, @prots)) {formattime shieldoffaithtime;#var protstimed %additem( SoF @timed, @protstimed)};#if (%ismember( ManShld, @prots)) {formattime manashldtime;#var protstimed %additem( ManShld @timed, @protstimed)};#if (%ismember( SoulShld, @prots)) {formattime SoulShld;#var protstimed %additem( SoulShld @timed, @protstimed)};#if (%ismember( Float, @prots)) {formattime Floattime;#var protstimed %additem( Float @timed, @protstimed)};#if (%ismember( Rage, @prots)) {formattime enragetime;#var protstimed %additem( Rage @timed, @protstimed)};#if (%ismember( PThresh, @prots)) {formattime threshtime;#var protstimed %additem( PThresh @timed, @protstimed)};#if (%ismember( PBS~(@pbsto~), @prots)) {formattime pbstime;#var protstimed %additem( PBS~(@pbsto~) @timed, @protstimed)};#if (%ismember( IW, @prots)) {formattime iwilltime;#var protstimed %additem( IW @timed, @protstimed)};#if (%ismember( DRage, @prots)) {formattime dragetime;#var protstimed %additem( DRage @timed, @protstimed)};#if (%ismember( G-Acid~(S~), @prots)) {formattime gacid;#var protstimed %additem( G-Acid~(S~) @timed, @protstimed)};#if (%ismember( G-Asphyx~(S~), @prots)) {formattime gasphyx;#var protstimed %additem( G-Asphyx~(S~) @timed, @protstimed)};#if (%ismember( G-Fire~(S~), @prots)) {formattime gfire;#var protstimed %additem( G-Fire~(S~) @timed, @protstimed)};#if (%ismember( AOA~(S~), @prots)) {formattime aoatime;#var protstimed %additem( AOA~(S~) @timed, @protstimed)};#if (%ismember( G-Magic~(S~), @prots)) {formattime gmagic;#var protstimed %additem( G-Magic~(S~) @timed, @protstimed)};#if (%ismember( G-Cold~(S~), @prots)) {formattime gcold;#var protstimed %additem( G-Cold~(S~) @timed, @protstimed)};#if (%ismember( G-Psi~(S~), @prots)) {formattime gpsi;#var protstimed %additem( G-Psi~(S~) @timed, @protstimed)};#if (%ismember( G-Elec~(S~), @prots)) {formattime gelec;#var protstimed %additem( G-Elec~(S~) @timed, @protstimed)};#if (%ismember( G-Poison~(S~), @prots)) {formattime gpoison;#var protstimed %additem( G-Poison~(S~) @timed, @protstimed)};#if (%ismember( LfLnk~(@lifelinked~), @prots)) {formattime lifelinktime;#var protstimed %additem( LfLnk~(@lifelinked~) @timed, @protstimed)};#if (%ismember( Infra, @prots)) {formattime infratime;#var protstimed %additem( Infra @timed, @protstimed)};#if (%ismember( Trance, @prots)) {formattime trancetime;#var protstimed %additem( Trance @timed, @protstimed)};#if (%ismember( E.Aware, @prots)) {formattime eawaretime;#var protstimed %additem( E.Aware @timed, @protstimed)};#IF (%ismember( LoL, @prots)) {formattime loltime;#var protstimed %additem( LoL @timed, @protstimed)};#IF (%ismember( BoT, @prots)) {formattime bottime;#var protstimed %additem( BoT @timed, @protstimed)};#IF (%ismember( %1, @pmembers)) {#if (@protstimed<>"") {party report Prots: @{protstimed}} {party report Prots: none};#var protstimed {} {}}}
+#TRIGGER {^You are kicked out of party.} {#VAR pmembers {} {}}
+#TRIGGER {^|*%x.%x%s(%w)} {#if !%ismember( %1, @pmembers) {#var pmembers %additem( %1, @pmembers)}}
+#TRIGGER {^You left the party.} {#VAR pmembers {} {}}
+#TRIGGER {|========================================================|=====|==============|} {#VAR pmembers {} {}}
+#CLASS 0
+#CLASS {Prot-Reaver} {enable}
+#TRIGGER {^Your body swells in anticipation of the battles to come.} {timer GoDtime;party report Glory of Destruction Active.;#if !%ismember( GoD, @prots) {#var prots %additem( GoD, @prots)}}
+#TRIGGER {^You recharge your battle powers for a bit longer.} {timer GoDtime;party report Glory of Destruction Recharged.;#if !%ismember( GoD, @prots) {#var prots %additem( GoD, @prots)}}
+#TRIGGER {^The destructive forces leave your body.} {formattime GoDtime;party report Glory of Destruction Expires. ~[@{timed}~];#var prots %delitem( GoD, @prots)}
+#TRIGGER {^You draw some of [a-z,' ','~-','~'',',']'s spirit and use it to bolster your own!} {timer SDraintime;party report Spirit Drain Active.;#if !%ismember( SDrain, @prots) {#var prots %additem( SDrain, @prots)}}
+#TRIGGER {^The effects of the spirit drain leave you.} {formattime SDraintime;party report Spirit Drain Expires. ~[@{timed}~];#var prots %delitem( SDrain, @prots)}
+#CLASS 0
+#CLASS {Field Coloring}
+#TRIGGER {A aquamarine blue force field surrounds this area.$} {#cw powderblue;#SUB {A aquamarine blue force field surrounds this area. (Rain)}}
+#TRIGGER {A desert yellow force field surrounds this area.$} {#cw yellow;#SUB {A desert yellow force field surrounds this area. (Drying Wind)}}
+#TRIGGER {A shimmering blue force field surrounds this area.$} {#CW mediumblue;#SUB {A shimmering blue force field surrounds this area. (Shelter/Force Dome)}}
+#TRIGGER {A shining green force field surrounds this area.$} {#cw springgreen;#SUB {A shining green force field surrounds this area. (Anti Magic Field)}}
+#TRIGGER {A banded green force field surrounds this area.$} {#CW blink,springgreen,darkgreen;#SUB {A banded green force field surrounds this area. (IMPRISONMENT)}}
+#TRIGGER {A electric blue force field surrounds this area.$} {#cw dodgerblue;#SUB {A electric blue force field surrounds this area. (Electric Field)}}
+#TRIGGER {A miserably gray force field surrounds this area.$} {#cw lightgrey;#SUB {A miserably gray force field surrounds this area. (Field of Fear)}}
+#TRIGGER {^Magical holy barrier protects your surroundings.} {#cw skyblue;#SUB {Magical holy barrier protects your surroundings. (Celestial Haven)}}
+#TRIGGER {^This room is surrounded in a pulsating field of swirling colors.} {#SUB {This room is surrounded in a %ansi(blink,bold,cyan)pulsating %ansi(bold,red)field %ansi(bold,yellow)of %ansi(bold,blue)swirling %ansi(bold,green)colors. %ansi(white)(Prismatic Field)}}
+#TRIGGER {^This location is now surrounded in a aquamarine blue forcefield.} {#ALARM rainfield +0.3 {party report Rain Field Up!}}
+#TRIGGER {^The field fizzles.} {#SUSPEND rainfield;#SUSPEND windfield;#SUSPEND amffield;#SUSPEND shelterdomefield;#SUSPEND imprisonfield;#SUSPEND feartime;#SUSPEND electricfield}
+#TRIGGER {^This location is now surrounded in a desert yellow forcefield.} {#ALARM windfield +0.3 {party report Drying Wind Up!}}
+#TRIGGER {^This location is now surrounded in a shining green forcefield.} {#ALARM amffield +0.3 {party report Anti Magic Field Up!}}
+#TRIGGER {^This location is now surrounded in a shimmering blue forcefield.} {#ALARM shelterdomefield +0.3 {party report @shelterforcedome Up!}}
+#TRIGGER {^This location is now surrounded in a banded green forcefield.} {#ALARM imprisonfield +0.3 {party report IMPRISONMENT Up!}}
+#TRIGGER {'withing thang walz'} {#VAR shelterforcedome Shelter}
+#TRIGGER {'xulu tango charlie'} {#VAR shelterforcedome "Force Dome"}
+#TRIGGER {creating a magical holy barrier.$} {party report Celestial Haven Up!}
+#TRIGGER {^This location is now surrounded in a miserably gray forcefield.} {#ALARM fearfield +0.3 {party report Field of Fear Up!}}
+#TRIGGER {^This location is now surrounded in a electric blue forcefield.} {#ALARM electricfield +0.3 {party report Electric Field Up!}}
+#CLASS 0
+#CLASS {reagents} {enable}
+#TRIGGER {^(%d) silvery bark chips ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 silvery bark chips ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Sum C Spores~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ silvery bark chips ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Sum C Spores~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ silvery bark chips ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Sum C Spores~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ silvery bark chips ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Sum C Spores~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) bronze marbles ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 bronze marbles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Blast Vacuum~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ bronze marbles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Blast Vacuum~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ bronze marbles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Blast Vacuum~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ bronze marbles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Blast Vacuum~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) copper rods ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 copper rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Golden Arrow~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ copper rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Golden Arrow~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ copper rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Golden Arrow~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ copper rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Golden Arrow~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) ebony tubes ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 ebony tubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Killin Cloud~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ ebony tubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Killin Cloud~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ ebony tubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Killin Cloud~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ ebony tubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Killin Cloud~) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) small pieces of electrum wire ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 small pieces of electrum wire ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Electrocuton) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ small pieces of electrum wire ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Electrocuton) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ small pieces of electrum wire ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Electrocuton) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ small pieces of electrum wire ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Electrocuton) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) handfuls of olivine powder ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 handfuls of olivine powder ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Acid Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ handfuls of olivine powder ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Acid Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ handfuls of olivine powder ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Acid Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ handfuls of olivine powder ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Acid Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) steel arrowheads ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 steel arrowheads ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( ~ Cold Ray ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ steel arrowheads ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( ~ Cold Ray ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ steel arrowheads ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( ~ Cold Ray ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ steel arrowheads ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( ~ Cold Ray ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) quartz prisms ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 quartz prisms ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(RepulsorAura) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ quartz prisms ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(RepulsorAura) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ quartz prisms ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(RepulsorAura) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ quartz prisms ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(RepulsorAura) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) stone cubes ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 stone cubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( AcidShield ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ stone cubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( AcidShield ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ stone cubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( AcidShield ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ stone cubes ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( AcidShield ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) clusters of tungsten wires ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 clusters of tungsten wires ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightngStorm) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ clusters of tungsten wires ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightngStorm) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ clusters of tungsten wires ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightngStorm) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ clusters of tungsten wires ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightngStorm) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) tiny amethyst crystals ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 tiny amethyst crystals ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ShieldoDetox) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ tiny amethyst crystals ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ShieldoDetox) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ tiny amethyst crystals ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ShieldoDetox) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ tiny amethyst crystals ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ShieldoDetox) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {(%d) tiny leather bags ~(empty~) ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 tiny leather bags (empty) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Aura of Wind) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ tiny leather bags (empty) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Aura of Wind) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ tiny leather bags (empty) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Aura of Wind) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ tiny leather bags (empty) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Aura of Wind) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) small iron rods ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 small iron rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightninShld) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ small iron rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightninShld) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ small iron rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightninShld) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ small iron rods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(LightninShld) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) tiny platinum hammers ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 tiny platinum hammers ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Mgc Eruption) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ tiny platinum hammers ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Mgc Eruption) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ tiny platinum hammers ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Mgc Eruption) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ tiny platinum hammers ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Mgc Eruption) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) grey fur triangles ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 grey fur triangles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Frost Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ grey fur triangles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Frost Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ grey fur triangles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Frost Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ grey fur triangles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Frost Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) small glass cones ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 small glass cones ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Flame Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ small glass cones ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Flame Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ small glass cones ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Flame Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ small glass cones ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Flame Shield) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) granite spheres ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 granite spheres ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ granite spheres ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ granite spheres ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ granite spheres ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Blast ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) small highsteel discs ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 small highsteel discs ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ArmourAether) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ small highsteel discs ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ArmourAether) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ small highsteel discs ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ArmourAether) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ small highsteel discs ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(ArmourAether) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) pairs of interlocked bloodstone rings ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 pairs of interlocked bloodstone rings %ansi(bold,red)( Acid Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ pairs of interlocked bloodstone rings %ansi(bold,red)( Acid Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ pairs of interlocked bloodstone rings %ansi(bold,red)( Acid Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ pairs of interlocked bloodstone rings %ansi(bold,red)( Acid Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) handfuls of onyx gravel ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 handful of onyx gravel ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Hailstorm ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ handful of onyx gravel ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Hailstorm ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ handful of onyx gravel ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Hailstorm ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ handful of onyx gravel ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Hailstorm ~ ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) small brass fans ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 small brass fan ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Vacuum globe) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ small brass fan ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Vacuum globe) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ small brass fan ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Vacuum globe) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ small brass fan ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)(Vacuum globe) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#TRIGGER {^(%d) blue cobalt cups ~(empty~) ~((%d) power, (%d) standard, (%d) poor~)} {#IF (%1>9999 & %1<100000) {#SUB {%1 blue cobalt cup ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>999 & %1<10000) {#SUB {%1 ~ blue cobalt cup ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>99 & %1<1000) {#SUB {%1 ~ ~ blue cobalt cup ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}};#IF (%1>1 & %1<100) {#SUB {%1 ~ ~ ~ blue cobalt cup ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ %ansi(bold,red)( Lava Storm ) %ansi(bold,green)~(%2pwr, %ansi(bold,yellow)%3stnd, %ansi(bold,red)%4pr~)}}}
+#CLASS 0
+#CLASS {Shape liting}
+#TRIGGER {is in excellent shape.} {#cw 3}
+#TRIGGER {is in a good shape.} {#cw 11}
+#TRIGGER {is slightly hurt.} {#cw 2}
+#TRIGGER {is noticeably hurt.} {#cw 10}
+#TRIGGER {is not in a good shape.} {#cw 6}
+#TRIGGER {is in bad shape.} {#cw 14}
+#TRIGGER {is in very bad shape.} {#cw 4}
+#TRIGGER {is near death.} {#cw 12}
+#CLASS 0
+#CLASS {Combat Stuns} {enable}
+#TRIGGER {^You lose connection to reality, becoming truly STUNNED.} {#ECHO I'm Stunned: ~[Level 6]}
+#TRIGGER {^You hurt (*) who seems to become somewhat confused.} {#ECHO %1: ~[Stunned Level 2]} "" {notrig}
+#TRIGGER {^You make (*) stagger helplessly in pain and confusion.} {#ECHO %1: ~[Stunned Level 5]}
+#TRIGGER {^(*) gets hit badly and has serious problems staying in balance.} {#ECHO %1: ~[Stunned Level 4~]}
+#TRIGGER {^You STUN (*), who loses connection to reality.} {#ECHO %1: ~[Stunned Level 6]}
+#TRIGGER {^You cause (*) world to become blurred and unfocused.} {#ECHO %1: ~[Stunned Level 3]}
+#TRIGGER {^Your attack causes (*) to lose focus slightly.} {#ECHO %1: ~[Stunned Level 1]}
+#TRIGGER {^(*) swears and seems to be somewhat confused.} {#ECHO %1: ~[Stunned Level 2]}
+#TRIGGER {^You get hit, and your eyes lose focus slightly.} {#ECHO I'm Stunned: ~[Level 1]}
+#TRIGGER {^You become somewhat confused, losing your edge.} {#ECHO I'm Stunned: ~[Level 2]}
+#TRIGGER {^Your mind reels and the world becomes blurred.} {#ECHO I'm Stunned: ~[Level 3]}
+#TRIGGER {^You get hit badly, and have problems staying in balance.} {#ECHO I'm Stunned: ~[Level 4]}
+#TRIGGER {^You stagger helplessly in pain and confusion.} {#ECHO I'm Stunned: ~[Level 5]}
+#TRIGGER {^You lose connection to the reality, becoming truly STUNNED.} {#ECHO I'm Stunned: ~[Level 6]}
+#TRIGGER {^(*) struggles to keep focus while the world becomes blurred.} {#ECHO %1: ~[Stunned Level 3]}
+#TRIGGER {^...BUT you break it off with intense concentration.} {#ECHO HAHA cant Stun Me!}
+#TRIGGER {^...WHO breaks the stun quickly off with intense concentration.} {#ECHO ~[Broke Stun]}
+#TRIGGER {^The eyes of (*) lose focus slightly.} {#ECHO %1: ~[Stunned Level 1]}
+#TRIGGER {^(*) loses connection to reality, becoming truly STUNNED.} {#ECHO %1: ~[Stunned Level 6]}
+#TRIGGER {^You are no longer stunned.} {#ECHO ~[No Longer Stunned~]}
+#TRIGGER {^(*) staggers helplessly in pain and confusion.} {#ECHO %1: ~[Stunned Level 5]}
+#TRIGGER {^(*) is suddenly almost unable to stay in balance.} {#ECHO %1: ~[Stunned Level 1~]}
+#TRIGGER {^(*) seems hurt and confused.} {#ECHO %1 Lost Spell}
+#CLASS 0
+#ECHO {|                                                                                |}
+#ECHO {| I also recommend downloading and importing some of the add-ons such as field   |}
+#ECHO {| and shape liting, stuns, clickable hyperlinks, maybe the hp/ep/sp buttons if   |}
+#ECHO {| you'd like more of a graphic interface like Final Fantacy hp/ep/sp gauges      |}
+#ECHO {'--------------------------------------------------------------------------------'}
+#var currentversion {Dec_17,_2006}
+tell tarken Thanks for the Dec_17_2006 trigs.

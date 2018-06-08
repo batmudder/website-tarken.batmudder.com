@@ -1,0 +1,334 @@
+#if (%ismember( ShpArmr, @prots)) {
+  formattime shparmrtime
+  #var protstimed %additem( ShpArmr @prots, @protstimed)
+  }
+#if (%ismember( Dark, @prots)) {
+  formattime darktime
+  #var protstimed %additem( Dark @timed, @protstimed)
+  }
+#if (%ismember( Light, @prots)) {
+  formattime lighttime
+  #var protstimed %additem( Light @timed, @protstimed)
+  }
+#if (%ismember( TMask, @prots)) {
+  formattime tmasktime
+  #var protstimed %additem( TMask @timed, @protstimed)
+  }
+#if (%ismember( Misery, @prots)) {
+  formattime miserytime
+  #var protstimed %additem( Misery @timed, @protstimed)
+  }
+#if (%ismember( Haste, @prots)) {
+  formattime hastetime
+  #var protstimed %additem( Haste @timed, @protstimed)
+  }
+#if (%ismember( Hallu, @prots)) {
+  formattime hallutime
+  #var protstimed %additem( Hallu @timed, @protstimed)
+  }
+#if (%ismember( HW, @prots)) {
+  formattime hwtime
+  #var protstimed %additem( HW @timed, @protstimed)
+  }
+#if (%ismember( Us, @prots)) {
+  formattime unstuntime
+  #var protstimed %additem( Us @timed, @protstimed)
+  }
+#if (%ismember( Flex, @prots)) {
+  formattime Flextime
+  #var protstimed %additem( Flex @timed, @protstimed)
+  }
+#if (%ismember( AOA, @prots)) {
+  formattime aoatime
+  #var protstimed %additem( AOA @timed, @protstimed)
+  }
+#if (%ismember( SoP, @prots)) {
+  formattime Soptime
+  #var protstimed %additem( SoP @timed, @protstimed)
+  }
+#if (%ismember( PfE, @prots)) {
+  formattime pfetime
+  #var protstimed %additem( PfE @timed, @protstimed)
+  }
+#if (%ismember( PfG, @prots)) {
+  formattime pfgtime
+  #var protstimed %additem( PfG @timed, @protstimed)
+  }
+#if (%ismember( Fire, @prots)) {
+  formattime firetime
+  #var protstimed %additem( Fire @timed, @protstimed)
+  }
+#if (%ismember( Elec, @prots)) {
+  formattime electrictime
+  #var protstimed %additem( Elec @timed, @protstimed)
+  }
+#if (%ismember( Psi, @prots)) {
+  formattime psitime
+  #var protstimed %additem( Psi @timed, @protstimed)
+  }
+#if (%ismember( Cold, @prots)) {
+  formattime coldtime
+  #var protstimed %additem( Cold @timed, @protstimed)
+  }
+#if (%ismember( Acid, @prots)) {
+  formattime acidtime
+  #var protstimed %additem( Acid @timed, @protstimed)
+  }
+#if (%ismember( Asphyx, @prots)) {
+  formattime asphxtime
+  #var protstimed %additem( Asphyx @timed, @protstimed)
+  }
+#if (%ismember( Poison, @prots)) {
+  formattime poisontime
+  #var protstimed %additem( Poison @timed, @protstimed)
+  }
+#if (%ismember( Magic, @prots)) {
+  formattime magictime
+  #var protstimed %additem( Magic @timed, @protstimed)
+  }
+#if (%ismember( G-Fire, @prots)) {
+  formattime gfire
+  #var protstimed %additem( G-Fire @timed, @protstimed)
+  }
+#if (%ismember( G-Acid, @prots)) {
+  formattime gacid
+  #var protstimed %additem( G-Acid @timed, @protstimed)
+  }
+#if (%ismember( G-Magic, @prots)) {
+  formattime gmagic
+  #var protstimed %additem( G-Magic @timed, @protstimed)
+  }
+#if (%ismember( G-Cold, @prots)) {
+  formattime gcold
+  #var protstimed %additem( G-Cold @timed, @protstimed)
+  }
+#if (%ismember( G-Psi, @prots)) {
+  formattime gpsi
+  #var protstimed %additem( G-Psi @timed, @protstimed)
+  }
+#if (%ismember( G-Poison, @prots)) {
+  formattime gpoison
+  #var protstimed %additem( G-Poison @timed, @protstimed)
+  }
+#if (%ismember( G-Elec, @prots)) {
+  formattime gelec
+  #var protstimed %additem( G-Elec @timed, @protstimed)
+  }
+#if (%ismember( G-Asphyx, @prots)) {
+  formattime gasphyx
+  #var protstimed %additem( G-Asphyx @timed, @protstimed)
+  }
+#if (%ismember( Embr, @prots)) {
+  formattime emtime
+  #var protstimed %additem( Embr @timed, @protstimed)
+  }
+#if (%ismember( War, @prots)) {
+  formattime wartime
+  #var protstimed %additem( War @timed, @protstimed)
+  }
+#if (%ismember( Aura, @prots)) {
+  formattime aohtime
+  #var protstimed %additem( Aura @timed, @protstimed)
+  }
+#if (%ismember( FAB, @prots)) {
+  formattime forcetime
+  #var protstimed %additem( FAB @timed, @protstimed)
+  }
+#if (%ismember( Fsh, @prots)) {
+  formattime fstime
+  #var protstimed %additem( Fsh @timed, @protstimed)
+  }
+#if (%ismember( Regen, @prots)) {
+  formattime regentime
+  #var protstimed %additem( Regen @timed, @protstimed)
+  }
+#if (%ismember( Unp, @prots)) {
+  formattime unpaintime
+  #var protstimed %additem( Unp @timed, @protstimed)
+  }
+#if (%ismember( Blur, @prots)) {
+  formattime blurtime
+  #var protstimed %additem( Blur @timed, @protstimed)
+  }
+#if (%ismember( Disp, @prots)) {
+  formattime disptime
+  #var protstimed %additem( Disp @timed, @protstimed)
+  }
+#if (%ismember( FF, @prots)) {
+  formattime FFtime
+  #var protstimed %additem( FF @timed, @protstimed)
+  }
+#if (%ismember( WW, @prots)) {
+  formattime WWtime
+  #var protstimed %additem( WW @timed, @protstimed)
+  }
+#if (%ismember( Touch, @prots)) {
+  formattime Touchtime
+  #var protstimed %additem( Touch @timed, @protstimed)
+  }
+#if (%ismember( MSup, @prots)) {
+  formattime MSuptime
+  #var protstimed %additem( MSup @timed, @protstimed)
+  }
+#if (%ismember( Forget, @prots)) {
+  formattime forgettime
+  #var protstimed %additem( Forget @timed, @protstimed)
+  }
+#if (%ismember( Eb, @prots)) {
+  formattime ebtime
+  #var protstimed %additem( Eb @timed, @protstimed)
+  }
+#if (%ismember( SWalk, @prots)) {
+  formattime walktime
+  #var protstimed %additem( SWalk @timed, @protstimed)
+  }
+#if (%ismember( E.Vital, @prots)) {
+  formattime e.vitaltime
+  #var protstimed %additem( E.Vital @timed, @protstimed)
+  }
+#if (%ismember( Luck, @prots)) {
+  formattime archfav
+  #var protstimed %additem( Luck @timed, @protstimed)
+  }
+#if (%ismember( QS, @prots)) {
+  formattime qstime
+  #var protstimed %additem( QS @timed, @protstimed)
+  }
+#if (%ismember( Epow, @prots)) {
+  formattime epowertime
+  #var protstimed %additem( Epow @timed, @protstimed)
+  }
+#if (%ismember( HvnlProt, @prots)) {
+  formattime HvnlProt
+  #var protstimed %additem( HvnlProt @timed, @protstimed)
+  }
+#if (%ismember( PsiShld, @prots)) {
+  formattime pshtime
+  #var protstimed %additem( PsiShld @timed, @protstimed)
+  }
+#if (%ismember( Vman, @prots)) {
+  formattime vinetime
+  #var protstimed %additem( Vman @timed, @protstimed)
+  }
+#if (%ismember( Eskin, @prots)) {
+  formattime eskintime
+  #var protstimed %additem( Eskin @timed, @protstimed)
+  }
+#if (%ismember( SoF, @prots)) {
+  formattime shieldoffaithtime
+  #var protstimed %additem( SoF @timed, @protstimed)
+  }
+#if (%ismember( ManShld, @prots)) {
+  formattime manashldtime
+  #var protstimed %additem( ManShld @timed, @protstimed)
+  }
+#if (%ismember( SoulShld, @prots)) {
+  formattime SoulShld
+  #var protstimed %additem( SoulShld @timed, @protstimed)
+  }
+#if (%ismember( Float, @prots)) {
+  formattime Floattime
+  #var protstimed %additem( Float @timed, @protstimed)
+  }
+#if (%ismember( Rage, @prots)) {
+  formattime enragetime
+  #var protstimed %additem( Rage @timed, @protstimed)
+  }
+#if (%ismember( PThresh, @prots)) {
+  formattime threshtime
+  #var protstimed %additem( PThresh @timed, @protstimed)
+  }
+#if (%ismember( PBS~(@pbsto~), @prots)) {
+  formattime pbstime
+  #var protstimed %additem( PBS~(@pbsto~) @timed, @protstimed)
+  }
+#if (%ismember( IW, @prots)) {
+  formattime iwilltime
+  #var protstimed %additem( IW @timed, @protstimed)
+  }
+#if (%ismember( DRage, @prots)) {
+  formattime dragetime
+  #var protstimed %additem( DRage @timed, @protstimed)
+  }
+#if (%ismember( G-Acid~(S~), @prots)) {
+  formattime gacid
+  #var protstimed %additem( G-Acid~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Asphyx~(S~), @prots)) {
+  formattime gasphyx
+  #var protstimed %additem( G-Asphyx~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Fire~(S~), @prots)) {
+  formattime gfire
+  #var protstimed %additem( G-Fire~(S~) @timed, @protstimed)
+  }
+#if (%ismember( AOA~(S~), @prots)) {
+  formattime aoatime
+  #var protstimed %additem( AOA~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Magic~(S~), @prots)) {
+  formattime gmagic
+  #var protstimed %additem( G-Magic~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Cold~(S~), @prots)) {
+  formattime gcold
+  #var protstimed %additem( G-Cold~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Psi~(S~), @prots)) {
+  formattime gpsi
+  #var protstimed %additem( G-Psi~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Elec~(S~), @prots)) {
+  formattime gelec
+  #var protstimed %additem( G-Elec~(S~) @timed, @protstimed)
+  }
+#if (%ismember( G-Poison~(S~), @prots)) {
+  formattime gpoison
+  #var protstimed %additem( G-Poison~(S~) @timed, @protstimed)
+  }
+#if (%ismember( LfLnk~(@lifelinked~), @prots)) {
+  formattime lifelinktime
+  #var protstimed %additem( LfLnk~(@lifelinked~) @timed, @protstimed)
+  }
+#if (%ismember( Infra, @prots)) {
+  formattime infratime
+  #var protstimed %additem( Infra @timed, @protstimed)
+  }
+#if (%ismember( Trance, @prots)) {
+  formattime trancetime
+  #var protstimed %additem( Trance @timed, @protstimed)
+  }
+#if (%ismember( E.Aware, @prots)) {
+  formattime eawaretime
+  #var protstimed %additem( E.Aware @timed, @protstimed)
+  }
+#IF (%ismember( LoL, @prots)) {
+  formattime loltime
+  #var protstimed %additem( LoL @timed, @protstimed)
+  }
+#IF (%ismember( BoT, @prots)) {
+  formattime bottime
+  #var protstimed %additem( BoT @timed, @protstimed)
+  }
+#IF (%ismember( SDrain, @prots)) {
+  formattime SDraintime
+  #var protstimed %additem( SDrain @timed, @protstimed)
+  }
+#IF (%ismember( GoD, @prots)) {
+  formattime GoDtime
+  #var protstimed %additem( GoD @timed, @protstimed)
+  }
+#if (%ismember( Fsh~(S~), @prots)) {
+  formattime fstime
+  #var protstimed %additem( Fsh~(S~) @timed, @protstimed)
+  }
+#if (%ismember( Invis, @prots)) {
+  formattime invistime
+  #var protstimed %additem( Invis @timed, @protstimed)
+  }
+#if (%ismember( R.Ent, @prots)) {
+  formattime RessEnttime
+  #var protstimed %additem( R.Ent @timed, @protstimed)
+  }
+#if (@protstimed<>"") {party report Prots: @{protstimed}} {party report Prots: none}
+#var protstimed {} {}

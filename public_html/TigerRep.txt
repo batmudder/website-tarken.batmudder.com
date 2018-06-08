@@ -1,0 +1,7 @@
+#ALIAS tigerrep {#ECHO Mak Rep: @tigermakrep Claw Rep: @tigerclawrep}
+#TRIGGER {^You learn to focus power from the deepest core of your being!$} {#cw bold,red;#ECHO GAINED DIM MAK REP;#add tigermakrep 1} "tigerrepu"
+#TRIGGER {^You feel more connected to Curath than ever before!$} {#cw bold,red;#ECHO GAINED TIGER CLAW REP;#add tigerclawrep 1} "tigerrepu"
+#ECHO This trigger will keep track of your tiger rep gained from clawing and dim mak
+#ECHO To see how much you've gained (since you installed this script), type 'tigerrep'.
+#ECHO If for some reason you know your rep already, you can modify the variable values
+#ECHO from the triggers window.

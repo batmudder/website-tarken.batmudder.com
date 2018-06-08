@@ -1,0 +1,4 @@
+#ECHO Party report trigger. Will report on battle rounds. Type "battle rounds" to turn on round flags.
+#ECHO Trigger will be in the "Party report" class.
+#UNTRIGGER {^*****************************************************$} "party report"
+#TRIGGER {^*****************************************************$} {party report} "party report" {verbatim} 

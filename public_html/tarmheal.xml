@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<cmud>
+  <class name="Tarmheal">
+    <button autopos="false" left="-181" top="24" toolbar="0" priority="1590">
+      <caption>CSW1</caption>
+      <value>cast 'cure serious wounds' @h1</value>
+    </button>
+    <button autopos="false" left="-121" top="24" toolbar="0" priority="1600">
+      <caption>CSW2</caption>
+      <value>cast 'cure serious wounds' @h2</value>
+    </button>
+    <button autopos="false" left="-61" top="24" toolbar="0" priority="1610">
+      <caption>CSW3</caption>
+      <value>cast 'cure serious wounds' @h3</value>
+    </button>
+    <button autopos="false" left="-181" top="47" toolbar="0" priority="1620">
+      <caption>CCW1</caption>
+      <value>cast 'cure critical wounds' @h1</value>
+    </button>
+    <button autopos="false" left="-121" top="47" toolbar="0" priority="1630">
+      <caption>CCW2</caption>
+      <value>cast 'cure critical wounds' @h2</value>
+    </button>
+    <button autopos="false" left="-61" top="47" toolbar="0" priority="1640">
+      <caption>CCW3</caption>
+      <value>cast 'cure critical wounds' @h3</value>
+    </button>
+    <button autopos="false" left="-181" top="70" toolbar="0" priority="1650">
+      <caption>MH1</caption>
+      <value>cast 'major heal' @h1</value>
+    </button>
+    <button autopos="false" left="-121" top="70" toolbar="0" priority="1660">
+      <caption>MH2</caption>
+      <value>cast 'major heal' @h2</value>
+    </button>
+    <button autopos="false" left="-61" top="70" toolbar="0" priority="1680">
+      <caption>MH3</caption>
+      <value>cast 'major heal' @h3</value>
+    </button>
+    <button autopos="false" left="-181" toolbar="0" priority="1690">
+      <caption>@h1cur / @h1max</caption>
+    </button>
+    <button autopos="false" left="-121" toolbar="0" priority="1700">
+      <caption>@h2cur / @h2max</caption>
+    </button>
+    <button autopos="false" left="-61" toolbar="0" priority="1710">
+      <caption>@h3cur / @h3max</caption>
+    </button>
+    <trigger priority="1750">
+      <pattern>|[(%s|~*](%d).(%d)   (%w) (%s) {ldr|mbr} (%s)(%d)~((%s)(%d)</pattern>
+      <value>#var h%2cur %6 " "
+#var h%2max %8 " "
+#var h%2 %3 </value>
+    </trigger>
+    <trigger priority="1820">
+      <pattern>{You left the party.|You disband the party.}</pattern>
+      <value>#var h1cur " "
+#var h1max " "
+#var h2max " "
+#var h2cur " "
+#var h3max " "
+#var h3cur " "</value>
+    </trigger>
+    <button autopos="false" left="-181" top="93" toolbar="0" priority="1850">
+      <caption>Minor</caption>
+      <value>cast minor party heal</value>
+    </button>
+    <button autopos="false" left="-121" top="93" toolbar="0" priority="1860">
+      <caption>Major</caption>
+      <value>cast major party heal</value>
+    </button>
+    <button autopos="false" left="-61" top="93" toolbar="0" priority="1870">
+      <caption>True</caption>
+      <value>cast true party heal</value>
+    </button>
+    <button autosize="false" width="60" height="115" autopos="false" left="-1" toolbar="0" priority="1880">
+      <caption>PS</caption>
+      <value>ps</value>
+    </button>
+    <button autosize="false" width="180" height="23" autopos="false" left="-61" top="116" toolbar="0" priority="1890">
+      <caption>DD !!!</caption>
+      <value>cast 'deaths door' @ddtarget</value>
+    </button>
+    <trigger priority="1900">
+      <pattern>^(%w) lapses into unconsciousness from severe loss of blood.</pattern>
+      <value>#var ddtarget %1</value>
+    </trigger>
+  </class>
+</cmud>

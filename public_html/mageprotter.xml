@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<cmud>
+  <class name="Mageprotter">
+    <button autopos="false" left="-181" toolbar="0" priority="100">
+      <caption>@p11</caption>
+      <value>#var prottarget @p11
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-181" top="24" toolbar="0" priority="110">
+      <caption>@p21</caption>
+      <value>#var prottarget @p21
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-121" top="47" toolbar="0" priority="120">
+      <caption>@p32</caption>
+      <value>#var prottarget @p32
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-61" top="103" toolbar="0" priority="130">
+      <caption>Gmag</caption>
+      <value>#var prot "repulsor aura"</value>
+    </button>
+    <button autopos="false" left="-181" top="103" toolbar="0" priority="140">
+      <caption>Gelec</caption>
+      <value>#var prot "lightning shield"</value>
+    </button>
+    <button autopos="false" left="-181" top="126" toolbar="0" priority="150">
+      <caption>Gphys</caption>
+      <value>#var prot "armour of aether"</value>
+    </button>
+    <trigger priority="200">
+      <pattern>|[(%s|~*](%d).(%d)   (%w)</pattern>
+      <value>#var p%1%2 %3 " "</value>
+    </trigger>
+    <button autopos="false" left="-121" toolbar="0" priority="340">
+      <caption>@p12</caption>
+      <value>#var prottarget @p21
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-121" top="24" toolbar="0" priority="350">
+      <caption>@p22</caption>
+      <value>#var prottarget @p22
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-61" top="24" toolbar="0" priority="360">
+      <caption>@p23</caption>
+      <value>#var prottarget @p23
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-181" top="47" toolbar="0" priority="370">
+      <caption>@p31</caption>
+      <value>#var prottarget @p31
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-61" top="47" toolbar="0" priority="380">
+      <caption>@p33</caption>
+      <value>#var prottarget @p33
+cast '@prot' @prottarget</value>
+    </button>
+    <button autopos="false" left="-61" top="80" toolbar="0" priority="390">
+      <caption>Gcold</caption>
+      <value>#var prot "frost shield"</value>
+    </button>
+    <button autopos="false" left="-121" top="103" toolbar="0" priority="400">
+      <caption>Gfire</caption>
+      <value>#var prot "flame shield"</value>
+    </button>
+    <button autopos="false" left="-121" top="80" toolbar="0" priority="410">
+      <caption>Gasph</caption>
+      <value>#var prot "aura of win"</value>
+    </button>
+    <button autopos="false" left="-181" top="80" toolbar="0" priority="420">
+      <caption>Gacid</caption>
+      <value>#var prot "corrosion shield"</value>
+    </button>
+    <button autopos="false" left="-121" top="126" toolbar="0" priority="430">
+      <caption>Gpois</caption>
+      <value>#var prot "shield of detoxication"</value>
+    </button>
+    <button autopos="false" left="-61" toolbar="0" priority="440">
+      <caption>@p13</caption>
+      <value>#var prottarget @p13
+cast '@prot' @prottarget</value>
+    </button>
+    <trigger priority="1110">
+      <pattern>{You left the party.|You disband the party.}</pattern>
+      <value>#var p11 " "
+#var p12 " "
+#var p13 " "
+#var p21 " "
+#var p22 " "
+#var p23 " "
+#var p31 " "
+#var p32 " "
+#var p33 " "</value>
+    </trigger>
+  </class>
+</cmud>

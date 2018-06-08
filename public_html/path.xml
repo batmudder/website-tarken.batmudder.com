@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<cmud>
+  <class name="Path">
+    <notes>Small mapping programm for zmud. mapon enables mapping mode, every (e,ne,s etc..) movement adds direction to your saved path. Only 1 saved path supported. 
+Instead of saving the full path u travel. it disregards movements where you back and forth. So e,e,e,w,w,n,n becomes e,n,n. 
+printmap - printsout current route that you have walked
+reprintmap - printsout the route backwards to your starting position
+runpath - runs the saved path
+rerunpath - reverse runs the saved path
+deletepath - deletes the saved path
+deletelast - deletes the last move
+mapon - enables map path save
+mapoff - disables map path save
+
+Have fun.
+Thanks for mahon,stargazer,ssmud,tarken.</notes>
+    <alias name="deletepath">
+      <value>#show path cleared.
+#var movelist ""
+#var movelist2 ""
+#var movelist4 ""</value>
+    </alias>
+    <alias name="reprintpath">
+      <value>#var movelist2 ""
+#var movelist3 @movelist
+#var movelength %numitems(@movelist)
+#loop @movelength {#var movelist2 %push(%pop(movelist),@movelist2)}
+#var movelist @movelist3
+#var movelist4 ""
+#forall @movelist2 {#var movelist4 %additem("%reversedir(%i)",@movelist4)}
+#show %expandlist( @movelist4, ",")
+</value>
+    </alias>
+    <alias name="rerunpath">
+      <value>mapoff
+#var movelist2 ""
+#var movelist3 @movelist
+#var movelength %numitems(@movelist)
+#loop @movelength {#var movelist2 %push(%pop(movelist),@movelist2)}
+#var movelist @movelist3
+#var movelist4 ""
+#forall @movelist2 {#var movelist4 %additem("%reversedir(%i)",@movelist4)}
+#forall @movelist4 {%i}</value>
+    </alias>
+    <alias name="runpath">
+      <value>mapoff
+#forall @movelist {%i}</value>
+    </alias>
+    <alias name="printpath">
+      <value>#show %expandlist( @movelist, ",")</value>
+    </alias>
+    <alias name="mapon">
+      <value>#T+ move
+#echo Mapper on.</value>
+    </alias>
+    <alias name="mapoff">
+      <value>#T- move
+#echo Mapper off.</value>
+    </alias>
+    <alias name="deletelast">
+      <value>#var movelist %delnitem( @movelist, %numitems( @movelist))</value>
+    </alias>
+    <class name="move" enabled="false">
+      <alias name="d">
+        <value>down
+#if (%item( @movelist, %numitems( @movelist)) != u) {#var movelist %additem( d, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="e">
+        <value>east
+#if (%item( @movelist, %numitems( @movelist)) != w) {#var movelist %additem( e, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="n">
+        <value>north
+#if (%item( @movelist, %numitems( @movelist)) != s) {#var movelist %additem( n, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="ne">
+        <value>northeast
+#if (%item( @movelist, %numitems( @movelist)) != sw) {#var movelist %additem( ne, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="nw">
+        <value>northwest
+#if (%item( @movelist, %numitems( @movelist)) != se) {#var movelist %additem( nw, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="s">
+        <value>south
+south
+#if (%item( @movelist, %numitems( @movelist)) != n) {#var movelist %additem( s, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="se">
+        <value>southeast
+southeast
+#if (%item( @movelist, %numitems( @movelist)) != nw) {#var movelist %additem( se, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="sw">
+        <value>southwest
+#if (%item( @movelist, %numitems( @movelist)) != ne) {#var movelist %additem( sw, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="u">
+        <value>up
+#if (%item( @movelist, %numitems( @movelist)) != d) {#var movelist %additem( u, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias name="w">
+        <value>west
+#if (%item( @movelist, %numitems( @movelist)) != e) {#var movelist %additem( w, @movelist)} {#var movelist %delnitem( @movelist, %numitems( @movelist))}</value>
+      </alias>
+      <alias/>
+      <trigger priority="2150">
+        <pattern>^(*) blocks your way to (%w).</pattern>
+        <value>#var movelist %delnitem( @movelist, %numitems( @movelist))</value>
+      </trigger>
+      <trigger priority="2160">
+        <pattern>^You cannot go that way.</pattern>
+        <value>#var movelist %delnitem( @movelist, %numitems( @movelist))</value>
+      </trigger>
+      <trigger priority="2170">
+        <pattern>^You cannot leave, you have been AMBUSHED.</pattern>
+        <value>#var movelist %delnitem( @movelist, %numitems( @movelist))</value>
+      </trigger>
+    </class>
+  </class>
+</cmud>
